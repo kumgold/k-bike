@@ -2,7 +2,6 @@ package com.goldcompany.apps.koreabike.ui.bike_map
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
@@ -207,7 +206,12 @@ private fun PlaceWebView(
         },
         update = { webView ->
             view = webView
-            webView.loadUrl(bottomSheetUiState.currentPlace?.placeUrl ?: "")
+            (bottomSheetUiState.currentPlace?.placeUrl
+                ?: bottomSheetUiState.searchUrl)?.let {
+                webView.loadUrl(
+                    it
+                )
+            }
         }
     )
 }

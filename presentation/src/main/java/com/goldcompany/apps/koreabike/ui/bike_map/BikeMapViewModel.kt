@@ -23,8 +23,11 @@ data class BikeMapUiState(
 data class BikeMapBottomSheetUiState(
     val isLoading: Boolean = false,
     val message: Int? = null,
-    val currentPlace: Address? = null
+    val currentPlace: Address? = null,
+    val searchUrl: String? = null
 )
+
+private const val SEARCH_URL = "https://search.naver.com/search.naver?query="
 
 @HiltViewModel
 class BikeMapViewModel @Inject constructor(
@@ -84,17 +87,25 @@ class BikeMapViewModel @Inject constructor(
                     _bottomSheetUiState.update {
                         it.copy(
                             isLoading = false,
-                            currentPlace = data[0]
+                            currentPlace = data[0],
+                            searchUrl = null
                         )
                     }
                 } else {
-                    // TODO Web Search
+                    _bottomSheetUiState.update {
+                        it.copy(
+                            isLoading = false,
+                            currentPlace = null,
+                            searchUrl = SEARCH_URL + place
+                        )
+                    }
                 }
             } else {
                 _bottomSheetUiState.update {
                     it.copy(
                         isLoading = false,
-                        message = R.string.error_code
+                        message = R.string.error_code,
+                        searchUrl = null
                     )
                 }
             }
