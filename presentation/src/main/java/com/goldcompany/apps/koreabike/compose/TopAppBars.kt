@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.util
+package com.goldcompany.apps.koreabike.compose
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable

@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.AddressTextView
-import com.goldcompany.apps.koreabike.util.ListPageTopAppBar
+import com.goldcompany.apps.koreabike.compose.ListPageTopAppBar
 import com.goldcompany.koreabike.domain.model.address.Address
 
 @Composable

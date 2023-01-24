@@ -41,8 +41,13 @@ class KBikeRepositoryImpl(
         longitude: String,
         latitude: String
     ): List<Address> {
-        return remoteDataSource.searchCategoryPlaces(code, longitude, latitude).apiPlaces.map {
-            mapperApiAddressToAddress(it)
+        return try {
+            val response = remoteDataSource.searchCategoryPlaces(code, longitude, latitude)
+            response.apiPlaces.map {
+                mapperApiAddressToAddress(it)
+            }
+        } catch (e: Exception) {
+            emptyList()
         }
     }
 
