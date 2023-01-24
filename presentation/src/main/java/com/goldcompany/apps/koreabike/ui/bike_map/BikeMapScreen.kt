@@ -174,9 +174,6 @@ private fun BottomSheetLayout(
         }
     ) {
         // TODO Anchor
-        /**
-         * 현재 위치 기반으로?
-         */
     }
 }
 

@@ -129,7 +129,10 @@ private fun AddressLazyColumn(
     searchNextAddressPage: () -> Unit,
     listState: LazyListState = rememberLazyListState()
 ) {
+    // remember -> save some state to composable
     val endOfListReached by remember {
+        // derivedStateOf -> can be used for this to reduce the number of recompositions.
+        // https://medium.com/androiddevelopers/jetpack-compose-when-should-i-use-derivedstateof-63ce7954c11b
         derivedStateOf {
             listState.isScrolledToEnd()
         }
