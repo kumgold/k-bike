@@ -42,8 +42,8 @@ fun BikeMapScreen(
     navController: NavController
 ) {
     Scaffold(
+        modifier = modifier,
         scaffoldState = scaffoldState,
-        modifier = modifier.fillMaxSize(),
     ) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsState()

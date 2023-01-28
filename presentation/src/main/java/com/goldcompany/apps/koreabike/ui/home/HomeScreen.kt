@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.home
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.ui.bike_map.BikeMapScreen
 import com.goldcompany.apps.koreabike.ui.history_place.HistoryPlaceScreen
+import com.goldcompany.apps.koreabike.ui.record.RecordScreen
 import com.goldcompany.apps.koreabike.ui.search_address.SearchAddressScreen
 
 @Composable
@@ -29,16 +31,19 @@ fun HomeScreen() {
     val showBottomBar = rememberSaveable { mutableStateOf(true) }
     val items = listOf(
         KBikeScreen.BikeMap,
-        KBikeScreen.MyPlace
+        KBikeScreen.MyPlace,
+        KBikeScreen.Record
     )
     val map = mapOf(
         KBikeScreen.BikeMap.route to R.drawable.ic_bike_map,
-        KBikeScreen.MyPlace.route to R.drawable.ic_my_place
+        KBikeScreen.MyPlace.route to R.drawable.ic_my_place,
+        KBikeScreen.Record.route to R.drawable.ic_edit_square
     )
 
     showBottomBar.value = when (navBackStackEntry?.destination?.route) {
         KBikeScreen.BikeMap.route -> true
         KBikeScreen.MyPlace.route -> true
+        KBikeScreen.Record.route -> true
         else -> false
     }
 
@@ -82,9 +87,32 @@ fun HomeScreen() {
             startDestination = KBikeScreen.BikeMap.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(KBikeScreen.BikeMap.route) { BikeMapScreen(navController = navController)}
-            composable(KBikeScreen.SearchPlace.route) { SearchAddressScreen(navController = navController)}
-            composable(KBikeScreen.MyPlace.route) { HistoryPlaceScreen(navController = navController)}
+            val modifier = Modifier.fillMaxSize()
+
+            composable(KBikeScreen.BikeMap.route) {
+                BikeMapScreen(
+                    modifier = modifier,
+                    navController = navController
+                )
+            }
+            composable(KBikeScreen.SearchPlace.route) {
+                SearchAddressScreen(
+                    modifier = modifier,
+                    navController = navController
+                )
+            }
+            composable(KBikeScreen.MyPlace.route) {
+                HistoryPlaceScreen(
+                    modifier = modifier,
+                    navController = navController
+                )
+            }
+            composable(KBikeScreen.Record.route) {
+                RecordScreen(
+                    modifier = modifier,
+                    navController = navController
+                )
+            }
         }
     }
 }
