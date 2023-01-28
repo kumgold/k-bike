@@ -32,9 +32,8 @@ enum class SearchAppBarState {
 }
 
 @Composable
-fun ListPageTopAppBar(
-    @StringRes title: Int,
-    navigateBack: () -> Unit
+fun DefaultKBikeTopAppBar(
+    @StringRes title: Int
 ) {
     TopAppBar(
         title = { 
@@ -191,7 +190,7 @@ private fun SearchTextField(
 private fun ListPageTopAppBarPreview() {
     MaterialTheme {
         Surface {
-            ListPageTopAppBar(R.string.app_name, { })
+            DefaultKBikeTopAppBar(R.string.app_name)
         }
     }
 }
