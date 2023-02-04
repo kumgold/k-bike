@@ -18,6 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
+import com.goldcompany.apps.koreabike.KBikeDestinations
+import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.AddressTextView
 import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar
@@ -51,7 +55,12 @@ fun HistoryPlaceScreen(
                 modifier = Modifier.padding(paddingValues),
                 addressList = uiState.items,
                 deleteAddress = viewModel::deleteAddress,
-                onClick = viewModel::setCurrentAddress
+                onClick = {
+                    viewModel.setCurrentAddress(it)
+                    navController.navigate(KBikeScreen.BikeMap.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }
@@ -88,8 +97,10 @@ private fun HistoryPlaceAddressItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                onClick(address)
+            }
             .padding(horizontal = dimensionResource(id = R.dimen.list_item_horizontal_margin))
-            .clickable { onClick(address) }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_search_button),

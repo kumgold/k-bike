@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.history_place
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
@@ -28,7 +29,6 @@ class HistoryPlaceViewModel @Inject constructor(
     private val deleteAddressUseCase: DeleteAddressUseCase
 ) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(false)
     private val _message: MutableStateFlow<Int?> = MutableStateFlow(null)
     private val _itemsAsync = getAllHistoryAddressUseCase().map {
             getAddressList(it)
@@ -36,8 +36,8 @@ class HistoryPlaceViewModel @Inject constructor(
         .onStart<Async<List<Address>>> { emit(Async.Loading) }
 
     val uiState: StateFlow<HistoryPlaceUiState> = combine(
-        _isLoading, _message, _itemsAsync
-    ) { isLoading, message, itemsAsync ->
+        _message, _itemsAsync
+    ) { message, itemsAsync ->
         when (itemsAsync) {
             Async.Loading -> {
                 HistoryPlaceUiState(isLoading = true)
@@ -56,6 +56,22 @@ class HistoryPlaceViewModel @Inject constructor(
         initialValue = HistoryPlaceUiState(isLoading = true)
     )
 
+    init {
+        getCurrentAddress()
+    }
+
+    private val currentAddress = MutableLiveData<Address?>(null)
+
+    private fun getCurrentAddress() {
+        viewModelScope.launch {
+            getCurrentAddressUseCase().collectLatest { address ->
+                if (address is Result.Success) {
+                    currentAddress.value = address.data
+                }
+            }
+        }
+    }
+
     private fun getAddressList(address: Result<List<Address>>): List<Address> {
         return if (address.succeeded && address is Result.Success) {
             address.data
@@ -69,25 +85,18 @@ class HistoryPlaceViewModel @Inject constructor(
         _message.value = message
     }
 
-    fun shownMessage() {
-        _message.value = null
-    }
-
     fun setCurrentAddress(newAddress: Address) {
-//        viewModelScope.launch {
-//            val address = getCurrentAddressUseCase()
-//            if (address is Result.Success) {
-//                address.data?.let { updateCurrentAddressUnselectedUseCase(it.id) }
-//            }
-//            insertAddressUseCase(newAddress)
-//        }
+        viewModelScope.launch {
+            if (currentAddress.value != null) {
+                updateCurrentAddressUnselectedUseCase(currentAddress.value!!.id)
+            }
+            insertAddressUseCase(newAddress)
+        }
     }
 
     fun deleteAddress(address: Address) {
-        _isLoading.value = true
         viewModelScope.launch {
             deleteAddressUseCase(address)
-            _isLoading.value = false
         }
     }
 }
