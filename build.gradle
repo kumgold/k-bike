@@ -53,4 +53,6 @@ ext {
     paging_version = "3.1.1"
 
     lifecycle_version = "2.5.0"
+
+    material_version = "1.0.1"
 }

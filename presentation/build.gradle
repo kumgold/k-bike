@@ -78,9 +78,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    // Material3
+    implementation "androidx.compose.material3:material3:$material_version"
+    implementation "androidx.compose.material3:material3-window-size-class:$material_version"
+
     // Google Map
-    implementation 'com.google.maps.android:maps-compose:2.5.3'
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation "com.google.maps.android:maps-compose:2.5.3"
+    implementation "com.google.android.gms:play-services-maps:18.1.0"
 
     // Kotlin fragment navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

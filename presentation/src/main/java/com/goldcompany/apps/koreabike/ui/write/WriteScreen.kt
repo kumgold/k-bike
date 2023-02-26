@@ -1,4 +1,8 @@
 package com.goldcompany.apps.koreabike.ui.write
 
-class WriteScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun WriteScreen() {
+
 }
