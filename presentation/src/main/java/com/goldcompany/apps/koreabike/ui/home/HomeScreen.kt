@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -165,6 +164,8 @@ private fun KBikeNavHost(
     modifier: Modifier,
     navController: NavHostController
 ) {
+    val navModifier = Modifier.fillMaxSize()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -172,25 +173,25 @@ private fun KBikeNavHost(
     ) {
         composable(KBikeScreen.BikeMap.route) {
             BikeMapScreen(
-                modifier = modifier,
+                modifier = navModifier,
                 navController = navController
             )
         }
         composable(KBikeScreen.SearchPlace.route) {
             SearchAddressScreen(
-                modifier = modifier,
+                modifier = navModifier,
                 navController = navController
             )
         }
         composable(KBikeScreen.MyPlace.route) {
             HistoryPlaceScreen(
-                modifier = modifier,
+                modifier = navModifier,
                 navController = navController
             )
         }
         composable(KBikeScreen.Record.route) {
             RecordScreen(
-                modifier = modifier,
+                modifier = navModifier,
                 navController = navController
             )
         }
