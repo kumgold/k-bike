@@ -16,16 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.ui.bike_map.BikeMapScreen
-import com.goldcompany.apps.koreabike.ui.history_place.HistoryPlaceScreen
-import com.goldcompany.apps.koreabike.ui.record.RecordScreen
-import com.goldcompany.apps.koreabike.ui.search_address.SearchAddressScreen
+import com.goldcompany.apps.koreabike.nav.KBikeNavHost
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 
 @Composable
 fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
@@ -156,44 +151,5 @@ private fun ExpandedScreen(
             modifier = Modifier.fillMaxSize(),
             navController = navController
         )
-    }
-}
-
-@Composable
-private fun KBikeNavHost(
-    modifier: Modifier,
-    navController: NavHostController
-) {
-    val navModifier = Modifier.fillMaxSize()
-
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = KBikeScreen.BikeMap.route
-    ) {
-        composable(KBikeScreen.BikeMap.route) {
-            BikeMapScreen(
-                modifier = navModifier,
-                navController = navController
-            )
-        }
-        composable(KBikeScreen.SearchPlace.route) {
-            SearchAddressScreen(
-                modifier = navModifier,
-                navController = navController
-            )
-        }
-        composable(KBikeScreen.MyPlace.route) {
-            HistoryPlaceScreen(
-                modifier = navModifier,
-                navController = navController
-            )
-        }
-        composable(KBikeScreen.Record.route) {
-            RecordScreen(
-                modifier = navModifier,
-                navController = navController
-            )
-        }
     }
 }

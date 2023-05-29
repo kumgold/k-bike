@@ -18,10 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
-import com.goldcompany.apps.koreabike.KBikeDestinations
-import com.goldcompany.apps.koreabike.KBikeScreen
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.AddressTextView
 import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar

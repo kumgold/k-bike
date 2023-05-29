@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike
+package com.goldcompany.apps.koreabike.constants
 
 object KBikeDestinations {
     const val HOME = "home"
