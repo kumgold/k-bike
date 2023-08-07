@@ -13,7 +13,7 @@ Kotlin, Clean Architecture, Android Jetpack, AAC(ViewModel, LiveData, Binding, N
 Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
 <br><br>
 
-## 화면
+<h2>화면</h2>
 
 <br><br>
 <img src="./images/main.png" height="400" width="250">
