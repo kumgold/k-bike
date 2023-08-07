@@ -15,9 +15,9 @@ Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
 
 <h2>화면</h2><br>
 
-<img src="./images/main.png" height="400" width="250">
-<img src="./images/search_address.png" height="400" width="250">
-<img src="./images/history.png" height="400" width="250">
+<img src="./images/main.png" height="400" width="250"/>
+<img src="./images/search_address.png" height="400" width="250"/>
+<img src="./images/history.png" height="400" width="250"/>
 
 
 
