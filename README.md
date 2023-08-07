@@ -12,9 +12,11 @@ K-자전거는 자전거를 탈 때 고려해야 하는 여러 기능들을 지�
 Kotlin, Clean Architecture, Android Jetpack, AAC(ViewModel, LiveData, Binding, Navigation), Room<br>
 Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
 <br><br>
-애플리케이션 코드 구조, 서비스 화면<br>
-![캡처](./images/1.PNG)
-![캡처](./images/3.PNG)
+애플리케이션 코드 구조, 서비스 화면
+<br>
+<img src="./images/main.png" height="400" width="200"><img src="./images/search_address.png" height="400" width="200">
+<br>
+<img src="./images/history.png" height="400" width="200">
 
 
 
