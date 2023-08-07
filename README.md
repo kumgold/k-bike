@@ -14,9 +14,9 @@ Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
 <br><br>
 애플리케이션 코드 구조, 서비스 화면
 <br>
-<img src="./images/main.png" height="400" width="200"><img src="./images/search_address.png" height="400" width="200">
-<br>
-<img src="./images/history.png" height="400" width="200">
+<img src="./images/main.png" height="400" width="250">
+<img src="./images/search_address.png" height="400" width="250">
+<img src="./images/history.png" height="400" width="250">
 
 
 
