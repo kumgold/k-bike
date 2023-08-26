@@ -9,4 +9,5 @@ sealed class KBikeScreen(val route: String, @StringRes val resourceId: Int) {
     object SearchPlace: KBikeScreen(KBikeDestinations.SEARCH_PLACE_SCREEN, R.string.search_place)
     object MyPlace: KBikeScreen(KBikeDestinations.MY_PLACE_SCREEN, R.string.my_place)
     object Record: KBikeScreen(KBikeDestinations.RECORD_SCREEN, R.string.record)
+    object Navigation: KBikeScreen(KBikeDestinations.NAVIGATION, R.string.navigation)
 }

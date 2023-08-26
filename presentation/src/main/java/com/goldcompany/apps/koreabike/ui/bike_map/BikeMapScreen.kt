@@ -57,9 +57,7 @@ fun BikeMapScreen(
             bottomSheetUiState = bottomSheetUiState,
             coroutineScope = coroutineScope,
             searchPlace = viewModel::searchPlace,
-            navigateSearchAddress = {
-                navController.navigate(KBikeScreen.SearchPlace.route)
-            }
+            navController = navController
         )
     }
 }
@@ -72,7 +70,7 @@ private fun BikeMapDefaultScreen(
     bottomSheetUiState: BikeMapBottomSheetUiState,
     coroutineScope: CoroutineScope,
     searchPlace: (String) -> Unit,
-    navigateSearchAddress: () -> Unit
+    navController: NavController
 ) {
     val bottomState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
@@ -85,7 +83,7 @@ private fun BikeMapDefaultScreen(
         coroutineScope = coroutineScope,
         bottomState = bottomState
     )
-    SearchAddressBar(navigateSearchAddress = navigateSearchAddress)
+    SearchAddressBar(navController = navController)
     BottomSheetLayout(
         bottomSheetUiState = bottomSheetUiState,
         bottomState = bottomState
@@ -126,28 +124,55 @@ private fun BikeMap(
 
 @Composable
 private fun SearchAddressBar(
-    navigateSearchAddress: () -> Unit
+    navController: NavController
 ) {
-    Button(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .fillMaxWidth(),
-        shape = Shapes(medium = RoundedCornerShape(6.dp)).medium,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(id = R.color.white),
-            contentColor = colorResource(id = R.color.black)
-        ),
-        border = BorderStroke(1.dp, colorResource(id = R.color.black)),
-        onClick = navigateSearchAddress,
-        content = {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = stringResource(id = R.string.search_address_hint2),
-                textAlign = TextAlign.Start,
-                style = KBikeTypography.button
-            )
-        }
-    )
+    Row {
+        Button(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .weight(3f),
+            shape = Shapes(medium = RoundedCornerShape(6.dp)).medium,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.white),
+                contentColor = colorResource(id = R.color.black)
+            ),
+            border = BorderStroke(1.dp, colorResource(id = R.color.black)),
+            onClick = {
+                navController.navigate(KBikeScreen.SearchPlace.route)
+            },
+            content = {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(id = R.string.search_address_hint2),
+                    textAlign = TextAlign.Start,
+                    style = KBikeTypography.button
+                )
+            }
+        )
+
+        Button(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .weight(1f),
+            shape = Shapes(medium = RoundedCornerShape(6.dp)).medium,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.colorPrimary),
+                contentColor = colorResource(id = R.color.white)
+            ),
+            border = BorderStroke(1.dp, colorResource(id = R.color.black)),
+            onClick = {
+                navController.navigate(KBikeScreen.Navigation.route)
+            },
+            content = {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(id = R.string.navigation_button),
+                    textAlign = TextAlign.Center,
+                    style = KBikeTypography.button
+                )
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -214,14 +239,4 @@ private fun PlaceWebView(
             }
         }
     )
-}
-
-@Preview
-@Composable
-private fun SearchAddressBarPreView() {
-    MaterialTheme {
-        Surface {
-            SearchAddressBar({})
-        }
-    }
 }
