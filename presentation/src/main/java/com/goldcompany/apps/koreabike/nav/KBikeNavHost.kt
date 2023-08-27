@@ -50,6 +50,7 @@ fun KBikeNavHost(
         }
         composable(KBikeScreen.Navigation.route) {
             NavigationScreen(
+                navController = navController,
                 modifier = navModifier
             )
         }

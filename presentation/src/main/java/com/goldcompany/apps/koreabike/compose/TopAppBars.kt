@@ -48,6 +48,32 @@ fun DefaultKBikeTopAppBar(
 }
 
 @Composable
+fun DefaultKBikeTopAppBar(
+    @StringRes title: Int,
+    navigateBack: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = stringResource(id = title),
+                color = colorResource(id = R.color.white)
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = navigateBack) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back_to_page),
+                    tint = colorResource(id = R.color.white)
+                )
+            }
+        },
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = colorResource(id = R.color.colorPrimary)
+    )
+}
+
+@Composable
 fun SearchAppBar(
     @StringRes title: Int,
     place: String,
@@ -89,7 +115,7 @@ private fun DefaultSearchAppBar(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable{ onClickForSearch() },
+                    .clickable { onClickForSearch() },
                 text = stringResource(id = title),
                 color = colorResource(id = R.color.white)
             )

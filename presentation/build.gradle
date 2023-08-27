@@ -101,6 +101,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.compiler:compiler:$compose_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
