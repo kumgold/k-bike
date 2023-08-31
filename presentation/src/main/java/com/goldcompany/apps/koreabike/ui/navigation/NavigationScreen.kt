@@ -15,6 +15,7 @@ import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -41,12 +42,19 @@ fun NavigationScreen(
                 navController.popBackStack()
             }
         )
-        SearchNavigationView()
+        SearchNavigationView(
+            viewModel = viewModel
+        )
     }
 }
 
 @Composable
-private fun SearchNavigationView() {
+private fun SearchNavigationView(
+    viewModel: NavigationViewModel
+) {
+    val searchStartAddress by viewModel.searchStartAddress
+    val searchEndAddress by viewModel.searchEndAddress
+
     Row(
         modifier = Modifier
             .padding(top = 20.dp)
@@ -60,13 +68,19 @@ private fun SearchNavigationView() {
         ) {
             TextField(
                 modifier = Modifier,
-                value = "",
-                onValueChange = {}
+                value = searchStartAddress,
+                onValueChange = { address ->
+                    viewModel.setSearchStartAddress(address)
+                    viewModel.setIsStart(true)
+                }
             )
             TextField(
                 modifier = Modifier,
-                value = "",
-                onValueChange = {}
+                value = searchEndAddress,
+                onValueChange = { address ->
+                    viewModel.setSearchEndAddress(address)
+                    viewModel.setIsStart(false)
+                }
             )
         }
         Button(

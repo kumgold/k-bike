@@ -1,5 +1,9 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,6 +34,20 @@ class NavigationViewModel @Inject constructor(
         _isStart.value = isStart
     }
 
+    private val _searchStartAddress: MutableState<String> = mutableStateOf(value = "")
+    val searchStartAddress: State<String> = _searchStartAddress
+
+    fun setSearchStartAddress(name: String) {
+        _searchStartAddress.value = name
+    }
+
+    private val _searchEndAddress: MutableState<String> = mutableStateOf(value = "")
+    val searchEndAddress: State<String> = _searchEndAddress
+
+    fun setSearchEndAddress(name: String) {
+        _searchEndAddress.value = name
+    }
+
     private val _startAddress = MutableLiveData<NavAddress>()
     val startAddress: LiveData<NavAddress> = _startAddress
 
@@ -53,6 +71,7 @@ class NavigationViewModel @Inject constructor(
     fun searchAddress(address: String, page: Int) {
         viewModelScope.launch {
             val response = searchAddressUseCase(address, page)
+            Log.d("SEARCH ADDRESS", "search address response : $response")
 //            _addressList.postValue(response)
         }
     }
