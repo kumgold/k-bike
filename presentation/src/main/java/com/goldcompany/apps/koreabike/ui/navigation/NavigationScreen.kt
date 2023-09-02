@@ -57,10 +57,11 @@ private fun SearchNavigationView(
 ) {
     val searchStartAddress by viewModel.searchStartAddress
     val searchEndAddress by viewModel.searchEndAddress
+    val defaultMargin = 10.dp
 
     Row(
         modifier = Modifier
-            .padding(top = 20.dp)
+            .padding(top = defaultMargin)
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
     ) {
@@ -68,7 +69,7 @@ private fun SearchNavigationView(
 
         Column(
             modifier = Modifier
-                .padding(start = 10.dp)
+                .padding(start = defaultMargin)
                 .weight(2f)
         ) {
             val modifier = Modifier.fillMaxWidth().border(1.dp, LightGray, shape)
@@ -90,7 +91,7 @@ private fun SearchNavigationView(
                     viewModel.setIsStart(true)
                 }
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(defaultMargin))
             TextField(
                 modifier = modifier,
                 value = searchEndAddress,
@@ -104,7 +105,7 @@ private fun SearchNavigationView(
         }
         Button(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = defaultMargin)
                 .fillMaxHeight()
                 .weight(1f),
             shape = shape,
