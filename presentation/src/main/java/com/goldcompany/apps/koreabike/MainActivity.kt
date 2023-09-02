@@ -3,9 +3,9 @@ package com.goldcompany.apps.koreabike
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import com.goldcompany.apps.koreabike.compose.KBikeComposeTheme
 import com.goldcompany.apps.koreabike.ui.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val widthSizeClass = calculateWindowSizeClass(this).widthSizeClass
 
-            MaterialTheme {
+            KBikeComposeTheme {
                 HomeScreen(widthSizeClass)
             }
         }
