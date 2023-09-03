@@ -1,22 +1,34 @@
 package com.goldcompany.apps.koreabike.ui.search_address
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
+import com.goldcompany.apps.koreabike.compose.CircularLoadingView
 import com.goldcompany.apps.koreabike.compose.DefaultAddressItemView
+import com.goldcompany.apps.koreabike.compose.DefaultTextView
+import com.goldcompany.apps.koreabike.compose.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.SearchAppBar
 import com.goldcompany.apps.koreabike.util.LoadingState
 import com.goldcompany.koreabike.domain.model.address.Address
@@ -54,19 +66,10 @@ fun SearchAddressScreen(
 
         when (uiState.loadingState) {
             LoadingState.INIT -> {
-                Text(
-                    text = stringResource(id = R.string.init_page),
-                    modifier = commonModifier,
-                    textAlign = TextAlign.Center
-                )
+                DefaultTextView(commonModifier)
             }
             LoadingState.LOADING -> {
-                Box(commonModifier) {
-                    CircularProgressIndicator(
-                        color = colorResource(id = R.color.colorPrimary),
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
+                CircularLoadingView(commonModifier)
             }
             LoadingState.DONE -> {
                 SearchAddressResultView(
@@ -81,11 +84,7 @@ fun SearchAddressScreen(
                 )
             }
             else -> {
-                Text(
-                    text = stringResource(id = R.string.error_code),
-                    modifier = commonModifier,
-                    textAlign = TextAlign.Center
-                )
+                ErrorMessageTextView(commonModifier)
             }
         }
     }

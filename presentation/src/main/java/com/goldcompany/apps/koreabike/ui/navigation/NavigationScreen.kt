@@ -1,7 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -16,14 +15,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -35,7 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
+import com.goldcompany.apps.koreabike.compose.CircularLoadingView
 import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.compose.DefaultTextView
+import com.goldcompany.apps.koreabike.compose.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.LightGray
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.apps.koreabike.util.LoadingState
@@ -161,29 +161,16 @@ private fun SearchAddressListView(
 
     when (uiState.loadingState) {
         LoadingState.INIT -> {
-            Text(
-                text = stringResource(id = R.string.init_page),
-                modifier = modifier,
-                textAlign = TextAlign.Center
-            )
+            DefaultTextView(modifier)
         }
         LoadingState.LOADING -> {
-            Box(modifier) {
-                CircularProgressIndicator(
-                    color = colorResource(id = R.color.colorPrimary),
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            CircularLoadingView(modifier)
         }
         LoadingState.DONE -> {
 
         }
         else -> {
-            Text(
-                text = stringResource(id = R.string.error_code),
-                modifier = modifier,
-                textAlign = TextAlign.Center
-            )
+            ErrorMessageTextView(modifier)
         }
     }
 }
