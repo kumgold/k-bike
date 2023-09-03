@@ -1,27 +1,35 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +38,7 @@ import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.compose.LightGray
 import com.goldcompany.apps.koreabike.util.KBikeTypography
+import com.goldcompany.apps.koreabike.util.LoadingState
 
 @Composable
 fun NavigationScreen(
@@ -37,6 +46,8 @@ fun NavigationScreen(
     navController: NavController,
     modifier: Modifier
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = modifier
     ) {
@@ -49,6 +60,7 @@ fun NavigationScreen(
         SearchNavigationView(
             viewModel = viewModel
         )
+        SearchAddressListView(uiState = uiState)
     }
 }
 
@@ -73,13 +85,18 @@ private fun SearchNavigationView(
                 .padding(start = defaultMargin)
                 .weight(2f)
         ) {
-            val modifier = Modifier.fillMaxWidth().border(1.dp, LightGray, shape)
+            val modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, LightGray, shape)
             val colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.white),
                 textColor = colorResource(id = R.color.black),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
+            )
+            val keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search
             )
 
             TextField(
@@ -88,10 +105,14 @@ private fun SearchNavigationView(
                 shape = shape,
                 colors = colors,
                 onValueChange = { address ->
-                    viewModel.setIsStart(true)
                     viewModel.setSearchStartAddress(address)
-                    viewModel.searchAddress(address)
-                }
+                },
+                keyboardOptions = keyboardOptions,
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        viewModel.searchAddress(searchStartAddress)
+                    }
+                )
             )
             Spacer(modifier = Modifier.height(defaultMargin))
             TextField(
@@ -100,10 +121,14 @@ private fun SearchNavigationView(
                 shape = shape,
                 colors = colors,
                 onValueChange = { address ->
-                    viewModel.setIsStart(false)
                     viewModel.setSearchEndAddress(address)
-                    viewModel.searchAddress(address)
-                }
+                },
+                keyboardOptions = keyboardOptions,
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        viewModel.searchAddress(searchEndAddress)
+                    }
+                )
             )
         }
         Button(
@@ -125,5 +150,40 @@ private fun SearchNavigationView(
                 )
             }
         )
+    }
+}
+
+@Composable
+private fun SearchAddressListView(
+    uiState: NavigationUiState
+) {
+    val modifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
+
+    when (uiState.loadingState) {
+        LoadingState.INIT -> {
+            Text(
+                text = stringResource(id = R.string.init_page),
+                modifier = modifier,
+                textAlign = TextAlign.Center
+            )
+        }
+        LoadingState.LOADING -> {
+            Box(modifier) {
+                CircularProgressIndicator(
+                    color = colorResource(id = R.color.colorPrimary),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }
+        LoadingState.DONE -> {
+
+        }
+        else -> {
+            Text(
+                text = stringResource(id = R.string.error_code),
+                modifier = modifier,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

@@ -13,7 +13,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
@@ -53,7 +52,7 @@ fun SearchAddressScreen(
         val uiState by viewModel.uiState.collectAsState()
         val commonModifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
 
-        when (uiState.isLoading) {
+        when (uiState.loadingState) {
             LoadingState.INIT -> {
                 Text(
                     text = stringResource(id = R.string.init_page),
@@ -62,7 +61,7 @@ fun SearchAddressScreen(
                 )
             }
             LoadingState.LOADING -> {
-                Box(modifier.fillMaxSize()) {
+                Box(commonModifier) {
                     CircularProgressIndicator(
                         color = colorResource(id = R.color.colorPrimary),
                         modifier = Modifier.align(Alignment.Center)

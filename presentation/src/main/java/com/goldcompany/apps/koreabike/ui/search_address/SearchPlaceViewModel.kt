@@ -13,13 +13,12 @@ import com.goldcompany.koreabike.domain.usecase.InsertAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.UpdateCurrentAddressUnselectedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class SearchAddressUiState(
-    val isLoading: LoadingState = LoadingState.INIT,
+    val loadingState: LoadingState = LoadingState.INIT,
     val items: List<Address> = emptyList(),
     val page: Int = 1,
     val currentPlace: String = "",
@@ -34,6 +33,9 @@ class SearchAddressViewModel @Inject constructor(
     private val updateCurrentAddressUnselectedUseCase: UpdateCurrentAddressUnselectedUseCase,
     private val insertAddressUseCase: InsertAddressUseCase
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(SearchAddressUiState())
+    val uiState: StateFlow<SearchAddressUiState> = _uiState.asStateFlow()
 
     private val _currentAddress = MutableStateFlow<Address?>(null)
 
@@ -69,7 +71,7 @@ class SearchAddressViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     page = 1,
-                    isLoading = LoadingState.INIT,
+                    loadingState = LoadingState.INIT,
                     items = emptyList()
                 )
             }
@@ -77,9 +79,6 @@ class SearchAddressViewModel @Inject constructor(
             _searchAddressState.value = ""
         }
     }
-
-    private val _uiState = MutableStateFlow(SearchAddressUiState())
-    val uiState: StateFlow<SearchAddressUiState> = _uiState.asStateFlow()
 
     fun setCurrentAddress(newAddress: Address) {
         viewModelScope.launch {
@@ -98,13 +97,11 @@ class SearchAddressViewModel @Inject constructor(
                 page = _uiState.value.page
             )
 
-            delay(500)
-
             if (response is Result.Success) {
                 val addressList = response.data.list
                 _uiState.update {
                     it.copy(
-                        isLoading = LoadingState.DONE,
+                        loadingState = LoadingState.DONE,
                         items = it.items + addressList,
                         page = it.page + 1,
                         currentPlace = currentPlace,
@@ -114,7 +111,7 @@ class SearchAddressViewModel @Inject constructor(
             } else {
                 _uiState.update {
                     it.copy(
-                        isLoading = LoadingState.ERROR,
+                        loadingState = LoadingState.ERROR,
                         isEnd = false
                     )
                 }
@@ -126,7 +123,7 @@ class SearchAddressViewModel @Inject constructor(
         if (place != null && _uiState.value.currentPlace != place) {
             _uiState.update {
                 it.copy(
-                    isLoading = LoadingState.LOADING,
+                    loadingState = LoadingState.LOADING,
                     items = emptyList(),
                     page = 1,
                     isEnd = false
@@ -134,13 +131,13 @@ class SearchAddressViewModel @Inject constructor(
             }
         } else {
             _uiState.update {
-                it.copy(isLoading = LoadingState.LOADING)
+                it.copy(loadingState = LoadingState.LOADING)
             }
         }
 
         if (_uiState.value.isEnd) {
             _uiState.update {
-                it.copy(isLoading = LoadingState.DONE)
+                it.copy(loadingState = LoadingState.DONE)
             }
             return
         }
