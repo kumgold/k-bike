@@ -88,8 +88,9 @@ private fun SearchNavigationView(
                 shape = shape,
                 colors = colors,
                 onValueChange = { address ->
-                    viewModel.setSearchStartAddress(address)
                     viewModel.setIsStart(true)
+                    viewModel.setSearchStartAddress(address)
+                    viewModel.searchAddress(address)
                 }
             )
             Spacer(modifier = Modifier.height(defaultMargin))
@@ -99,8 +100,9 @@ private fun SearchNavigationView(
                 shape = shape,
                 colors = colors,
                 onValueChange = { address ->
-                    viewModel.setSearchEndAddress(address)
                     viewModel.setIsStart(false)
+                    viewModel.setSearchEndAddress(address)
+                    viewModel.searchAddress(address)
                 }
             )
         }

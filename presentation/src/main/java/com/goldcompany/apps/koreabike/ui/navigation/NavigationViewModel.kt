@@ -68,7 +68,7 @@ class NavigationViewModel @Inject constructor(
         else _endAddress.value = address
     }
 
-    fun searchAddress(address: String, page: Int) {
+    fun searchAddress(address: String, page: Int = 1) {
         viewModelScope.launch {
             val response = searchAddressUseCase(address, page)
             Log.d("SEARCH ADDRESS", "search address response : $response")
