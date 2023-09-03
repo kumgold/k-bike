@@ -15,7 +15,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.koreabike.domain.model.address.Address
 
@@ -39,7 +38,7 @@ fun DefaultAddressItemView(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(id = R.dimen.list_item_horizontal_margin))
+            .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
             .clickable {
                 onClick(address)
                 navigateBack()
@@ -52,7 +51,7 @@ fun DefaultAddressItemView(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
         ) {
             AddressTextView(text = address.placeName)
             AddressTextView(text = address.addressName)

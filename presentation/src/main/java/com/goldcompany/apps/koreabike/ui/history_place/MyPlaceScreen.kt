@@ -15,7 +15,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.nav.KBikeScreen
@@ -71,8 +70,8 @@ private fun AddressLazyColumn(
     onClick: (Address) -> Unit
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(8.dp),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_margin)),
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.default_margin)),
         modifier = modifier
     ) {
         items(addressList) { address ->
@@ -97,7 +96,7 @@ private fun HistoryPlaceAddressItem(
             .clickable {
                 onClick(address)
             }
-            .padding(horizontal = dimensionResource(id = R.dimen.list_item_horizontal_margin))
+            .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_search_button),
@@ -106,7 +105,7 @@ private fun HistoryPlaceAddressItem(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
         ) {
             AddressTextView(text = address.placeName)
             AddressTextView(text = address.addressName)

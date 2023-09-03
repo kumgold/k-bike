@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -57,7 +58,7 @@ private fun SearchNavigationView(
 ) {
     val searchStartAddress by viewModel.searchStartAddress
     val searchEndAddress by viewModel.searchEndAddress
-    val defaultMargin = 10.dp
+    val defaultMargin = dimensionResource(id = R.dimen.default_margin)
 
     Row(
         modifier = Modifier
@@ -65,7 +66,7 @@ private fun SearchNavigationView(
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
     ) {
-        val shape = RoundedCornerShape(6.dp)
+        val shape = RoundedCornerShape(dimensionResource(id = R.dimen.default_corner_radius))
 
         Column(
             modifier = Modifier

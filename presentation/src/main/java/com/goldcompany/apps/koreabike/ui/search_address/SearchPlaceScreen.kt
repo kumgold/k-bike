@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,7 +51,7 @@ fun SearchAddressScreen(
         }
     ) { paddingValues ->
         val uiState by viewModel.uiState.collectAsState()
-        val commonModifier = Modifier.fillMaxSize().padding(8.dp)
+        val commonModifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
 
         when (uiState.isLoading) {
             LoadingState.INIT -> {
@@ -105,7 +106,7 @@ private fun SearchAddressResultView(
             text = stringResource(id = R.string.no_data),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(dimensionResource(id = R.dimen.default_margin)),
             textAlign = TextAlign.Center
         )
     } else {
@@ -137,6 +138,7 @@ private fun AddressLazyColumn(
             listState.isScrolledToEnd()
         }
     }
+    val defaultMargin = dimensionResource(id = R.dimen.default_margin)
 
     LaunchedEffect(
         endOfListReached
@@ -147,8 +149,11 @@ private fun AddressLazyColumn(
     }
 
     LazyColumn(
-        contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(
+            top = defaultMargin,
+            bottom = defaultMargin
+        ),
+        verticalArrangement = Arrangement.spacedBy(defaultMargin),
         modifier = modifier,
         state = listState
     ) {

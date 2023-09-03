@@ -12,9 +12,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -127,16 +127,21 @@ private fun SearchAddressBar(
     navController: NavController
 ) {
     Row {
+        val shape = Shapes(medium = RoundedCornerShape(dimensionResource(id = R.dimen.default_corner_radius))).medium
+        val colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.white),
+            contentColor = colorResource(id = R.color.black)
+        )
+        val border = BorderStroke(1.dp, colorResource(id = R.color.black))
+        val defaultMargin = dimensionResource(id = R.dimen.default_margin)
+
         Button(
             modifier = Modifier
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = defaultMargin)
                 .weight(3f),
-            shape = Shapes(medium = RoundedCornerShape(6.dp)).medium,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.white),
-                contentColor = colorResource(id = R.color.black)
-            ),
-            border = BorderStroke(1.dp, colorResource(id = R.color.black)),
+            shape = shape,
+            colors = colors,
+            border = border,
             onClick = {
                 navController.navigate(KBikeScreen.SearchPlace.route)
             },
@@ -152,14 +157,11 @@ private fun SearchAddressBar(
 
         Button(
             modifier = Modifier
-                .padding(horizontal = 8.dp)
+                .padding(end = defaultMargin)
                 .weight(1f),
-            shape = Shapes(medium = RoundedCornerShape(6.dp)).medium,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.colorPrimary),
-                contentColor = colorResource(id = R.color.white)
-            ),
-            border = BorderStroke(1.dp, colorResource(id = R.color.black)),
+            shape = shape,
+            colors = colors,
+            border = border,
             onClick = {
                 navController.navigate(KBikeScreen.Navigation.route)
             },
