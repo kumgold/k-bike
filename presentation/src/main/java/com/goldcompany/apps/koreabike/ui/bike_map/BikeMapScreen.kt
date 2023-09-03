@@ -128,10 +128,6 @@ private fun SearchAddressBar(
 ) {
     Row {
         val shape = Shapes(medium = RoundedCornerShape(dimensionResource(id = R.dimen.default_corner_radius))).medium
-        val colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(id = R.color.white),
-            contentColor = colorResource(id = R.color.black)
-        )
         val border = BorderStroke(1.dp, colorResource(id = R.color.black))
         val defaultMargin = dimensionResource(id = R.dimen.default_margin)
 
@@ -140,7 +136,10 @@ private fun SearchAddressBar(
                 .padding(horizontal = defaultMargin)
                 .weight(3f),
             shape = shape,
-            colors = colors,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.white),
+                contentColor = colorResource(id = R.color.black)
+            ),
             border = border,
             onClick = {
                 navController.navigate(KBikeScreen.SearchPlace.route)
@@ -160,7 +159,10 @@ private fun SearchAddressBar(
                 .padding(end = defaultMargin)
                 .weight(1f),
             shape = shape,
-            colors = colors,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.colorPrimary),
+                contentColor = colorResource(id = R.color.white)
+            ),
             border = border,
             onClick = {
                 navController.navigate(KBikeScreen.Navigation.route)
