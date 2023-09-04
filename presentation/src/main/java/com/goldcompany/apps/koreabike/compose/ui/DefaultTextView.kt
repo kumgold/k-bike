@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.compose
+package com.goldcompany.apps.koreabike.compose.ui
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

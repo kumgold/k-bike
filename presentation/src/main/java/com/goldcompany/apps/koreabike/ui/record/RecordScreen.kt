@@ -10,7 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
 
 @Composable
 fun RecordScreen(

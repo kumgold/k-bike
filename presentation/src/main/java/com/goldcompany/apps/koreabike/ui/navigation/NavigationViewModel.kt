@@ -25,7 +25,7 @@ data class NavAddress(
 
 data class NavigationUiState(
     val loadingState: LoadingState = LoadingState.INIT,
-    val addressList: List<Address> = emptyList(),
+    val addresses: List<Address> = emptyList(),
     val page: Int = 1,
     val isEnd: Boolean = false
 )
@@ -74,16 +74,14 @@ class NavigationViewModel @Inject constructor(
         loading()
 
         viewModelScope.launch {
-            val response = searchAddressUseCase(address, page)
-
-            when (response) {
+            when (val response = searchAddressUseCase(address, page)) {
                 is Result.Success -> {
                     val list = response.data.list
 
                     _uiState.update {
                         it.copy(
                             loadingState = LoadingState.DONE,
-                            addressList = it.addressList + list,
+                            addresses = it.addresses + list,
                             page = it.page + 1,
                             isEnd = response.data.isEnd
                         )
@@ -93,7 +91,7 @@ class NavigationViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             loadingState = LoadingState.ERROR,
-                            addressList = emptyList(),
+                            addresses = emptyList(),
                             page = 0,
                             isEnd = false
                         )

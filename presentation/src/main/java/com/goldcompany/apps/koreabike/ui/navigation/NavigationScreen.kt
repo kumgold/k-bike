@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,11 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.compose.CircularLoadingView
-import com.goldcompany.apps.koreabike.compose.DefaultKBikeTopAppBar
-import com.goldcompany.apps.koreabike.compose.DefaultTextView
-import com.goldcompany.apps.koreabike.compose.ErrorMessageTextView
+import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
+import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
+import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.LightGray
+import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.apps.koreabike.util.LoadingState
 
@@ -158,6 +161,7 @@ private fun SearchAddressListView(
     uiState: NavigationUiState
 ) {
     val modifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
+    val listState: LazyListState = rememberLazyListState()
 
     when (uiState.loadingState) {
         LoadingState.INIT -> {
@@ -167,7 +171,13 @@ private fun SearchAddressListView(
             CircularLoadingView(modifier)
         }
         LoadingState.DONE -> {
-
+            SearchAddressResultView(
+                modifier = modifier,
+                addressList = uiState.addresses,
+                onClick = {},
+                searchNextAddressPage = {},
+                listState = listState
+            )
         }
         else -> {
             ErrorMessageTextView(modifier)
