@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 data class SearchAddressUiState(
     val loadingState: LoadingState = LoadingState.INIT,
-    val items: List<Address> = emptyList(),
+    val addresses: List<Address> = emptyList(),
     val page: Int = 1,
     val currentPlace: String = "",
     val isEnd: Boolean = false,
@@ -72,7 +72,7 @@ class SearchAddressViewModel @Inject constructor(
                 it.copy(
                     page = 1,
                     loadingState = LoadingState.INIT,
-                    items = emptyList()
+                    addresses = emptyList()
                 )
             }
         } else {
@@ -102,7 +102,7 @@ class SearchAddressViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         loadingState = LoadingState.DONE,
-                        items = it.items + addressList,
+                        addresses = it.addresses + addressList,
                         page = it.page + 1,
                         currentPlace = currentPlace,
                         isEnd = response.data.isEnd
@@ -124,7 +124,7 @@ class SearchAddressViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     loadingState = LoadingState.LOADING,
-                    items = emptyList(),
+                    addresses = emptyList(),
                     page = 1,
                     isEnd = false
                 )

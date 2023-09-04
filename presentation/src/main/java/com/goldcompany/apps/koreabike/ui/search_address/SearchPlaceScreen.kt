@@ -65,7 +65,7 @@ fun SearchAddressScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues),
-                    addressList = uiState.items,
+                    addressList = uiState.addresses,
                     onClick = viewModel::setCurrentAddress,
                     navigateBack = { navController.popBackStack() },
                     searchNextAddressPage = viewModel::searchAddress,
