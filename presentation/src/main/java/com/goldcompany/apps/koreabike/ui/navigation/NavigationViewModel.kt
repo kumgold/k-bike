@@ -3,6 +3,8 @@ package com.goldcompany.apps.koreabike.ui.navigation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.util.LoadingState
@@ -19,8 +21,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class NavAddress(
-    val addressName: String,
-    val coordinate: String
+    val addressName: String = "",
+    val coordinate: String = ""
 )
 
 data class NavigationUiState(
@@ -53,11 +55,21 @@ class NavigationViewModel @Inject constructor(
         _searchEndAddress.value = name
     }
 
-//    private val _startAddress = MutableLiveData<NavAddress>()
-//    val startAddress: LiveData<NavAddress> = _startAddress
-//
-//    private val _endAddress = MutableLiveData<NavAddress>()
-//    val endAddress: LiveData<NavAddress> = _endAddress
+    private val _startAddress: MutableState<NavAddress> = mutableStateOf(
+        value = NavAddress()
+    )
+    val startAddress: State<NavAddress> = _startAddress
+
+    private val _endAddress: MutableState<NavAddress> = mutableStateOf(
+        value = NavAddress()
+    )
+    val endAddress: State<NavAddress> = _endAddress
+
+    private val _isStart: MutableState<Boolean> = mutableStateOf(value = true)
+
+    fun setIsStartAddressFlag(isStart: Boolean) {
+        _isStart.value = isStart
+    }
 
 //    private val _navigation = MutableLiveData<Navigation>()
 //    val navigation: LiveData<Navigation> = _navigation
@@ -65,10 +77,20 @@ class NavigationViewModel @Inject constructor(
 //    private val _resultMessage = MutableLiveData<Int>()
 //    val resultMessage: LiveData<Int> = _resultMessage
 
-//    fun setNavAddress(address: NavAddress) {
-//        if (_isStart.value == true) _startAddress.value = address
-//        else _endAddress.value = address
-//    }
+    fun setNavAddress(address: Address) {
+        val navAddress = NavAddress(
+            addressName = address.addressName,
+            coordinate = "${address.y} ${address.x}"
+        )
+
+        if (_isStart.value) {
+            _searchStartAddress.value = address.placeName
+            _startAddress.value = navAddress
+        } else {
+            _searchEndAddress.value = address.placeName
+            _endAddress.value = navAddress
+        }
+    }
 
     fun searchAddress(address: String, page: Int = 1) {
         loading()
@@ -81,9 +103,7 @@ class NavigationViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             loadingState = LoadingState.DONE,
-                            addresses = it.addresses + list,
-                            page = it.page + 1,
-                            isEnd = response.data.isEnd
+                            addresses = list
                         )
                     }
                 }

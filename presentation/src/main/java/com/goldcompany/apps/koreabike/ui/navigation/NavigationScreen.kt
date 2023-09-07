@@ -42,6 +42,7 @@ import com.goldcompany.apps.koreabike.compose.LightGray
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.koreabike.domain.model.address.Address
 
 @Composable
 fun NavigationScreen(
@@ -63,7 +64,10 @@ fun NavigationScreen(
         SearchNavigationView(
             viewModel = viewModel
         )
-        SearchAddressListView(uiState = uiState)
+        SearchAddressListView(
+            uiState = uiState,
+            onClick = viewModel::setNavAddress
+        )
     }
 }
 
@@ -109,6 +113,7 @@ private fun SearchNavigationView(
                 colors = colors,
                 onValueChange = { address ->
                     viewModel.setSearchStartAddress(address)
+                    viewModel.setIsStartAddressFlag(true)
                 },
                 keyboardOptions = keyboardOptions,
                 keyboardActions = KeyboardActions(
@@ -125,6 +130,7 @@ private fun SearchNavigationView(
                 colors = colors,
                 onValueChange = { address ->
                     viewModel.setSearchEndAddress(address)
+                    viewModel.setIsStartAddressFlag(false)
                 },
                 keyboardOptions = keyboardOptions,
                 keyboardActions = KeyboardActions(
@@ -158,7 +164,8 @@ private fun SearchNavigationView(
 
 @Composable
 private fun SearchAddressListView(
-    uiState: NavigationUiState
+    uiState: NavigationUiState,
+    onClick: (Address) -> Unit
 ) {
     val modifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
     val listState: LazyListState = rememberLazyListState()
@@ -174,7 +181,7 @@ private fun SearchAddressListView(
             SearchAddressResultView(
                 modifier = modifier,
                 addressList = uiState.addresses,
-                onClick = {},
+                onClick = onClick,
                 searchNextAddressPage = {},
                 listState = listState
             )
