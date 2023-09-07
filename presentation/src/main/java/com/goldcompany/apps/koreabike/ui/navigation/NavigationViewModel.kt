@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -80,7 +81,7 @@ class NavigationViewModel @Inject constructor(
     fun setNavAddress(address: Address) {
         val navAddress = NavAddress(
             addressName = address.addressName,
-            coordinate = "${address.y} ${address.x}"
+            coordinate = "${address.x},${address.y}"
         )
 
         if (_isStart.value) {
@@ -129,14 +130,16 @@ class NavigationViewModel @Inject constructor(
         }
     }
 
-//    fun getNavigationPath() {
-//        viewModelScope.launch {
-//            val start = _startAddress.value?.coordinate ?: ""
-//            val end = _endAddress.value?.coordinate ?: ""
-//            val result = getNavigationPathUseCase(start, end)
+    fun getNavigationPath() {
+        viewModelScope.launch {
+            val start = _startAddress.value.coordinate
+            val end = _endAddress.value.coordinate
+            val result = getNavigationPathUseCase(start, end)
+
+            Log.d("Navigation", "navigation result : $result")
 //            _navigation.postValue(result)
-//        }
-//    }
+        }
+    }
 //
 //    fun isAddressCorrect(): Boolean {
 //        val startCoordinate = startAddress.value?.coordinate ?: ""

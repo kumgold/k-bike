@@ -1,5 +1,6 @@
 package com.goldcompany.koreabike.data.repository
 
+import android.util.Log
 import com.goldcompany.koreabike.data.mapper.*
 import com.goldcompany.koreabike.data.repository.local.KBikeLocalDataSource
 import com.goldcompany.koreabike.data.repository.remote.KBikeRemoteDataSource
@@ -52,7 +53,8 @@ class KBikeRepositoryImpl(
     }
 
     override suspend fun getNavigationPath(start: String, end: String): Navigation {
-        return mapperApiRouteToNavigation(remoteDataSource.getNavigationPath(start, end).apiNavigationRoute.comfort)
+        val response = remoteDataSource.getNavigationPath(start, end).apiNavigationRoute
+        return mapperApiRouteToNavigation(response.comfort)
     }
 
     override fun getAllAddress(): Flow<Result<List<Address>>> {
