@@ -20,13 +20,11 @@ android {
     defaultConfig {
         applicationId "com.goldcompany.apps.koreabike"
         minSdkVersion 26
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 11
         versionName "1.9.2"
 
-        testInstrumentationRunner "com.goldcompany.apps.koreabike.KBikeTestRunner"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     buildTypes {
@@ -51,15 +49,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
-    }
-
-    testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-    }
-
-    testOptions.unitTests {
-        includeAndroidResources = true
-        returnDefaultValues = true
     }
 
     hilt {

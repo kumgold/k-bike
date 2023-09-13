@@ -10,18 +10,22 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.koreabike.domain.model.address.Address
 import com.google.android.gms.maps.model.CameraPosition
@@ -122,6 +126,7 @@ private fun BikeMap(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SearchAddressBar(
     navController: NavController
@@ -133,6 +138,9 @@ private fun SearchAddressBar(
 
         Button(
             modifier = Modifier
+                .semantics {
+                    testTag = "주소를 검색하세요."
+                }
                 .padding(horizontal = defaultMargin)
                 .weight(3f),
             shape = shape,
