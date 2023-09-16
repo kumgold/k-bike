@@ -21,7 +21,9 @@ class HistoryPlaceTest {
     @Test()
     fun myPlace_listShown() {
         startAddressList()
+
         composeTestRule.onNodeWithText("서울역").assertIsDisplayed()
+        composeTestRule.onNodeWithText("서울 용산구 한강대로 405").assertIsDisplayed()
     }
 
     private fun startAddressList() {
