@@ -63,8 +63,8 @@ fun HistoryPlaceScreen(
 }
 
 @Composable
-private fun AddressLazyColumn(
-    modifier: Modifier,
+fun AddressLazyColumn(
+    modifier: Modifier = Modifier,
     addressList: List<Address>,
     deleteAddress: (Address) -> Unit,
     onClick: (Address) -> Unit

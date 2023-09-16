@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
         android:name=".KBikeApplication">
-        <activity android:name="MainActivity"
+        <activity android:name=".MainActivity"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait"
             android:exported="true">
