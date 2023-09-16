@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
-import com.goldcompany.apps.koreabike.ui.myplace.HistoryPlaceScreen
+import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
 import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
 import com.goldcompany.apps.koreabike.ui.record.RecordScreen
 import com.goldcompany.apps.koreabike.ui.searchaddress.SearchAddressScreen
