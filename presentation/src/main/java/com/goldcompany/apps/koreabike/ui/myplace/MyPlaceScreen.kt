@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.history_place
+package com.goldcompany.apps.koreabike.ui.myplace
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

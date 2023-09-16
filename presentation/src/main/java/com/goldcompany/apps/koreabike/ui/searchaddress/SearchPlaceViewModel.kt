@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.search_address
+package com.goldcompany.apps.koreabike.ui.searchaddress
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

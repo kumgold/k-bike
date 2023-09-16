@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.bike_map
+package com.goldcompany.apps.koreabike.ui.bikemap
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextAlign

@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.bike_map
+package com.goldcompany.apps.koreabike.ui.bikemap
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

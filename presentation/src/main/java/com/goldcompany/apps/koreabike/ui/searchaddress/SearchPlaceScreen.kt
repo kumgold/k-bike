@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.search_address
+package com.goldcompany.apps.koreabike.ui.searchaddress
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
