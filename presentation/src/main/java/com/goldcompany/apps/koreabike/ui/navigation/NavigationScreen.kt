@@ -174,7 +174,10 @@ private fun SearchAddressListView(
 
     when (uiState.loadingState) {
         LoadingState.INIT -> {
-            DefaultTextView(modifier)
+            DefaultTextView(
+                modifier = modifier,
+                stringResource = R.string.init_page
+            )
         }
         LoadingState.LOADING -> {
             CircularLoadingView(modifier)

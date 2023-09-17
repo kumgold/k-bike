@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.compose.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,10 +10,11 @@ import com.goldcompany.apps.koreabike.R
 
 @Composable
 fun DefaultTextView(
-    modifier: Modifier
+    modifier: Modifier,
+    @StringRes stringResource: Int
 ) {
     Text(
-        text = stringResource(id = R.string.init_page),
+        text = stringResource(id = stringResource),
         modifier = modifier,
         textAlign = TextAlign.Center
     )

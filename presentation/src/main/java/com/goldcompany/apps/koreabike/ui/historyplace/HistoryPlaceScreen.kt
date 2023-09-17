@@ -21,6 +21,7 @@ import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.AddressTextView
 import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
 import com.goldcompany.koreabike.domain.model.address.Address
 
 @Composable
@@ -69,17 +70,24 @@ fun AddressLazyColumn(
     deleteAddress: (Address) -> Unit,
     onClick: (Address) -> Unit
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_margin)),
-        contentPadding = PaddingValues(dimensionResource(id = R.dimen.default_margin)),
-        modifier = modifier
-    ) {
-        items(addressList) { address ->
-            HistoryPlaceAddressItem(
-                address = address,
-                deleteAddress = { deleteAddress(address) },
-                onClick = { onClick(address) }
-            )
+    if (addressList.isEmpty()) {
+        DefaultTextView(
+            modifier = modifier,
+            stringResource = R.string.search_address_hint2
+        )
+    } else {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_margin)),
+            contentPadding = PaddingValues(dimensionResource(id = R.dimen.default_margin)),
+            modifier = modifier
+        ) {
+            items(addressList) { address ->
+                HistoryPlaceAddressItem(
+                    address = address,
+                    deleteAddress = { deleteAddress(address) },
+                    onClick = { onClick(address) }
+                )
+            }
         }
     }
 }

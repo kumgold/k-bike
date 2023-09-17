@@ -55,7 +55,10 @@ fun SearchAddressScreen(
 
         when (uiState.loadingState) {
             LoadingState.INIT -> {
-                DefaultTextView(commonModifier)
+                DefaultTextView(
+                    modifier = commonModifier,
+                    stringResource = R.string.init_page
+                )
             }
             LoadingState.LOADING -> {
                 CircularLoadingView(commonModifier)

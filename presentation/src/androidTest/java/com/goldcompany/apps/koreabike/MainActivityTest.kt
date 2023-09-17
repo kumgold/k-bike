@@ -19,11 +19,11 @@ import org.junit.Test
 class MainActivityTest {
 
     @get:Rule
-    val composeRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Before
     fun setup() {
-        composeRule.activity.setContent {
+        composeTestRule.activity.setContent {
             val navController = rememberNavController()
             KBikeComposeTheme {
                 NavHost(
@@ -40,7 +40,7 @@ class MainActivityTest {
 
     @Test
     fun clickSearchAddress_isVisible() {
-        val label = composeRule.activity.getString(R.string.search_address_hint2)
-        composeRule.onNodeWithTag(label).assertIsDisplayed()
+        val label = composeTestRule.activity.getString(R.string.search_address_hint2)
+        composeTestRule.onNodeWithTag(label).assertIsDisplayed()
     }
 }
