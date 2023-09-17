@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.historyplace
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -81,7 +82,7 @@ class HistoryPlaceViewModel @Inject constructor(
         }
     }
 
-    private fun setSnackBarMessage(message: Int) {
+    private fun setSnackBarMessage(@StringRes message: Int) {
         _message.value = message
     }
 
