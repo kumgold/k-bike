@@ -46,7 +46,7 @@ ext {
 
     mockk_version = "1.12.4"
 
-    hilt_test="2.44"
+    hilt_test_version="2.44"
 
     compose_version = "1.3.1"
 
@@ -55,4 +55,6 @@ ext {
     lifecycle_version = "2.5.0"
 
     material_version = "1.0.1"
+
+    robolectric_version = "4.10.3"
 }
