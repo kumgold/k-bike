@@ -15,6 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -71,7 +72,7 @@ class HistoryPlaceViewModelTest {
     @Test
     fun testDefaultValue() {
         coroutineRule.runBlockingTest {
-//            Assert.assertEquals(viewModel.uiState.value.items.isEmpty(), true)
+            Assert.assertEquals(viewModel.uiState.value.items.isEmpty(), true)
         }
     }
 }
