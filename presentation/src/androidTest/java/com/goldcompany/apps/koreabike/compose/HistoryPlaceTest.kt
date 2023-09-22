@@ -7,10 +7,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.goldcompany.apps.koreabike.ui.historyplace.AddressLazyColumn
 import com.goldcompany.koreabike.domain.model.address.Address
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class HistoryPlaceTest {
     @get:Rule
