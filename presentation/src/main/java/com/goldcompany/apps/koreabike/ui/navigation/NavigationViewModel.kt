@@ -57,24 +57,16 @@ class NavigationViewModel @Inject constructor(
     private val _startAddress: MutableState<NavAddress> = mutableStateOf(
         value = NavAddress()
     )
-    val startAddress: State<NavAddress> = _startAddress
 
     private val _endAddress: MutableState<NavAddress> = mutableStateOf(
         value = NavAddress()
     )
-    val endAddress: State<NavAddress> = _endAddress
 
     private val _isStart: MutableState<Boolean> = mutableStateOf(value = true)
 
     fun setIsStartAddressFlag(isStart: Boolean) {
         _isStart.value = isStart
     }
-
-//    private val _navigation = MutableLiveData<Navigation>()
-//    val navigation: LiveData<Navigation> = _navigation
-
-//    private val _resultMessage = MutableLiveData<Int>()
-//    val resultMessage: LiveData<Int> = _resultMessage
 
     fun setNavAddress(address: Address) {
         val navAddress = NavAddress(
@@ -135,21 +127,6 @@ class NavigationViewModel @Inject constructor(
             val result = getNavigationPathUseCase(start, end)
 
             Log.d("Navigation", "navigation result : $result")
-//            _navigation.postValue(result)
         }
     }
-//
-//    fun isAddressCorrect(): Boolean {
-//        val startCoordinate = startAddress.value?.coordinate ?: ""
-//        val endCoordinate = endAddress.value?.coordinate ?: ""
-//
-//        if (startCoordinate.isEmpty() || endCoordinate.isEmpty()) {
-//            _resultMessage.postValue(R.string.error_code)
-//            return false
-//        } else if (startCoordinate == endCoordinate) {
-//            _resultMessage.postValue(R.string.error_code)
-//            return false
-//        }
-//        return true
-//    }
 }

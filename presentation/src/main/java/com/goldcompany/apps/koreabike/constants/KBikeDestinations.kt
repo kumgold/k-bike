@@ -6,4 +6,5 @@ object KBikeDestinations {
     const val MY_PLACE_SCREEN = "my_place"
     const val RECORD_SCREEN = "record"
     const val NAVIGATION = "navigation"
+    const val NAVIGATION_DETAIL = "navigation_detail"
 }

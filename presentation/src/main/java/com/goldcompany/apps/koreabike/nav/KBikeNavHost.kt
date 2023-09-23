@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
 import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
 import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
+import com.goldcompany.apps.koreabike.ui.navigationdetail.NavigationDetailScreen
 import com.goldcompany.apps.koreabike.ui.record.RecordScreen
 import com.goldcompany.apps.koreabike.ui.searchaddress.SearchAddressScreen
 
@@ -50,6 +51,12 @@ fun KBikeNavHost(
         }
         composable(KBikeScreen.Navigation.route) {
             NavigationScreen(
+                navController = navController,
+                modifier = navModifier
+            )
+        }
+        composable(KBikeScreen.NavigationDetail.route) {
+            NavigationDetailScreen(
                 navController = navController,
                 modifier = navModifier
             )
