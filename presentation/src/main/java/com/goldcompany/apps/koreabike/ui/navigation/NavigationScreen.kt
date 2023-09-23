@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
+import android.view.KeyEvent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -25,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -107,7 +109,12 @@ private fun SearchNavigationView(
             )
 
             TextField(
-                modifier = modifier,
+                modifier = modifier.onKeyEvent {
+                    if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER){
+                        viewModel.searchAddress(searchStartAddress)
+                    }
+                    false
+                },
                 value = searchStartAddress,
                 shape = shape,
                 colors = colors,
@@ -120,11 +127,17 @@ private fun SearchNavigationView(
                     onSearch = {
                         viewModel.searchAddress(searchStartAddress)
                     }
-                )
+                ),
+                singleLine = true
             )
             Spacer(modifier = Modifier.height(defaultMargin))
             TextField(
-                modifier = modifier,
+                modifier = modifier.onKeyEvent {
+                    if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER){
+                        viewModel.searchAddress(searchEndAddress)
+                    }
+                    false
+                },
                 value = searchEndAddress,
                 shape = shape,
                 colors = colors,
@@ -137,7 +150,8 @@ private fun SearchNavigationView(
                     onSearch = {
                         viewModel.searchAddress(searchEndAddress)
                     }
-                )
+                ),
+                singleLine = true
             )
         }
         Button(

@@ -24,8 +24,8 @@ android {
         versionCode 11
         versionName "1.9.2"
 
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "com.goldcompany.apps.koreabike.HiltTestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "com.goldcompany.apps.koreabike.HiltTestRunner"
     }
 
     buildTypes {
