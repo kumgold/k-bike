@@ -125,7 +125,7 @@ class NavigationViewModel @Inject constructor(
             val start = _startAddress.value.coordinate
             val end = _endAddress.value.coordinate
 
-            when (val result = getNavigationPathUseCase(start, end)) {
+            when (getNavigationPathUseCase(start, end)) {
                 is Result.Success -> {
                     _uiState.update {
                         it.copy(
@@ -136,6 +136,7 @@ class NavigationViewModel @Inject constructor(
                 else -> {
                     _uiState.update {
                         it.copy(
+                            uiState = UIState.ERROR,
                             isNavigateSuccess = false
                         )
                     }

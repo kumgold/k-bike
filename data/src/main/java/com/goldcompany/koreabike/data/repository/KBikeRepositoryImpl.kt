@@ -78,7 +78,7 @@ class KBikeRepositoryImpl(
 
     override fun getAddress(): Flow<Result<Address?>> {
         return localDataSource.getAddress().map { entity ->
-            Result.Success(entity?.let { it -> mapperUserAddressEntityToAddress(it) })
+            Result.Success(entity?.let { mapperUserAddressEntityToAddress(it) })
         }
     }
 
