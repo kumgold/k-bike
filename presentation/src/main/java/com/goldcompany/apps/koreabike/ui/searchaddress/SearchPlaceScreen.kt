@@ -20,7 +20,7 @@ import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
 import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAppBar
-import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.apps.koreabike.util.UIState
 
 @Composable
 fun SearchAddressScreen(
@@ -53,17 +53,17 @@ fun SearchAddressScreen(
         val uiState by viewModel.uiState.collectAsState()
         val commonModifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
 
-        when (uiState.loadingState) {
-            LoadingState.INIT -> {
+        when (uiState.uiState) {
+            UIState.INIT -> {
                 DefaultTextView(
                     modifier = commonModifier,
                     stringResource = R.string.init_page
                 )
             }
-            LoadingState.LOADING -> {
+            UIState.LOADING -> {
                 CircularLoadingView(commonModifier)
             }
-            LoadingState.DONE -> {
+            UIState.DONE -> {
                 SearchAddressResultView(
                     modifier = Modifier
                         .fillMaxSize()

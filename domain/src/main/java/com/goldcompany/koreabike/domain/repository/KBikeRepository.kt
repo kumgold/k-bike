@@ -20,7 +20,7 @@ interface KBikeRepository {
     suspend fun getNavigationPath(
         start: String,
         end: String
-    ): Navigation
+    ): Result<Navigation>
 
     fun getAllAddress(): Flow<Result<List<Address>>>
 

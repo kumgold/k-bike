@@ -5,7 +5,7 @@ sealed class Async<out T> {
     data class Success<out T>(val data: T) : Async<T>()
 }
 
-enum class LoadingState {
+enum class UIState {
     INIT,
     LOADING,
     DONE,

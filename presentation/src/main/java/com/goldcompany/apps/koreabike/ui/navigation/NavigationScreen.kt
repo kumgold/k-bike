@@ -42,8 +42,9 @@ import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
 import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.util.KBikeTypography
-import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.address.Address
 
 @Composable
@@ -186,17 +187,17 @@ private fun SearchAddressListView(
     val modifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
     val listState: LazyListState = rememberLazyListState()
 
-    when (uiState.loadingState) {
-        LoadingState.INIT -> {
+    when (uiState.uiState) {
+        UIState.INIT -> {
             DefaultTextView(
                 modifier = modifier,
                 stringResource = R.string.init_page
             )
         }
-        LoadingState.LOADING -> {
+        UIState.LOADING -> {
             CircularLoadingView(modifier)
         }
-        LoadingState.DONE -> {
+        UIState.DONE -> {
             SearchAddressResultView(
                 modifier = modifier,
                 addressList = uiState.addresses,

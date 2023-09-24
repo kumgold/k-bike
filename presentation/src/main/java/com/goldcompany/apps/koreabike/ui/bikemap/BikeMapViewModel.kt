@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.util.Async
-import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.apps.koreabike.util.SEARCH_URL
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class BikeMapUiState(
-    val isLoading: LoadingState = LoadingState.INIT,
+    val isLoading: UIState = UIState.INIT,
     val address: Address? = null,
 )
 
@@ -44,11 +44,11 @@ class BikeMapViewModel @Inject constructor(
     ) { _, addressAsync ->
         when (addressAsync) {
             Async.Loading -> {
-                BikeMapUiState(isLoading = LoadingState.LOADING)
+                BikeMapUiState(isLoading = UIState.LOADING)
             }
             is Async.Success -> {
                 BikeMapUiState(
-                    isLoading = LoadingState.DONE,
+                    isLoading = UIState.DONE,
                     address = addressAsync.data
                 )
             }
@@ -56,7 +56,7 @@ class BikeMapViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(2000),
-        initialValue = BikeMapUiState(isLoading = LoadingState.INIT)
+        initialValue = BikeMapUiState(isLoading = UIState.INIT)
     )
 
     private fun getCurrentAddress(address: Result<Address?>): Address? {

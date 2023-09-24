@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.compose.ui.SearchAppBarState
-import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
 import com.goldcompany.koreabike.domain.usecase.GetCurrentAddressUseCase
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class SearchAddressUiState(
-    val loadingState: LoadingState = LoadingState.INIT,
+    val uiState: UIState = UIState.INIT,
     val addresses: List<Address> = emptyList(),
     val page: Int = 1,
     val currentPlace: String = "",
@@ -71,7 +71,7 @@ class SearchAddressViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     page = 1,
-                    loadingState = LoadingState.INIT,
+                    uiState = UIState.INIT,
                     addresses = emptyList()
                 )
             }
@@ -101,7 +101,7 @@ class SearchAddressViewModel @Inject constructor(
                 val addressList = response.data.list
                 _uiState.update {
                     it.copy(
-                        loadingState = LoadingState.DONE,
+                        uiState = UIState.DONE,
                         addresses = it.addresses + addressList,
                         page = it.page + 1,
                         currentPlace = currentPlace,
@@ -111,7 +111,7 @@ class SearchAddressViewModel @Inject constructor(
             } else {
                 _uiState.update {
                     it.copy(
-                        loadingState = LoadingState.ERROR,
+                        uiState = UIState.ERROR,
                         isEnd = false
                     )
                 }
@@ -123,7 +123,7 @@ class SearchAddressViewModel @Inject constructor(
         if (place != null && _uiState.value.currentPlace != place) {
             _uiState.update {
                 it.copy(
-                    loadingState = LoadingState.LOADING,
+                    uiState = UIState.LOADING,
                     addresses = emptyList(),
                     page = 1,
                     isEnd = false
@@ -131,13 +131,13 @@ class SearchAddressViewModel @Inject constructor(
             }
         } else {
             _uiState.update {
-                it.copy(loadingState = LoadingState.LOADING)
+                it.copy(uiState = UIState.LOADING)
             }
         }
 
         if (_uiState.value.isEnd) {
             _uiState.update {
-                it.copy(loadingState = LoadingState.DONE)
+                it.copy(uiState = UIState.DONE)
             }
             return
         }

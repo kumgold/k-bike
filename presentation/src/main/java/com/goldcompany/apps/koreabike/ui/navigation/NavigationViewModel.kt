@@ -1,12 +1,11 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.goldcompany.apps.koreabike.util.LoadingState
+import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
 import com.goldcompany.koreabike.domain.usecase.GetNavigationPathUseCase
@@ -25,10 +24,11 @@ data class NavAddress(
 )
 
 data class NavigationUiState(
-    val loadingState: LoadingState = LoadingState.INIT,
+    val uiState: UIState = UIState.INIT,
     val addresses: List<Address> = emptyList(),
     val page: Int = 1,
-    val isEnd: Boolean = false
+    val isEnd: Boolean = false,
+    val isNavigateSuccess: Boolean = false
 )
 
 @HiltViewModel
@@ -93,7 +93,7 @@ class NavigationViewModel @Inject constructor(
 
                     _uiState.update {
                         it.copy(
-                            loadingState = LoadingState.DONE,
+                            uiState = UIState.DONE,
                             addresses = list
                         )
                     }
@@ -101,7 +101,7 @@ class NavigationViewModel @Inject constructor(
                 else -> {
                     _uiState.update {
                         it.copy(
-                            loadingState = LoadingState.ERROR,
+                            uiState = UIState.ERROR,
                             addresses = emptyList(),
                             page = 0,
                             isEnd = false
@@ -115,7 +115,7 @@ class NavigationViewModel @Inject constructor(
     private fun loading() {
         _uiState.update {
             it.copy(
-                loadingState = LoadingState.LOADING
+                uiState = UIState.LOADING
             )
         }
     }
@@ -124,9 +124,23 @@ class NavigationViewModel @Inject constructor(
         viewModelScope.launch {
             val start = _startAddress.value.coordinate
             val end = _endAddress.value.coordinate
-            val result = getNavigationPathUseCase(start, end)
 
-            Log.d("Navigation", "navigation result : $result")
+            when (val result = getNavigationPathUseCase(start, end)) {
+                is Result.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isNavigateSuccess = true
+                        )
+                    }
+                }
+                else -> {
+                    _uiState.update {
+                        it.copy(
+                            isNavigateSuccess = false
+                        )
+                    }
+                }
+            }
         }
     }
 }

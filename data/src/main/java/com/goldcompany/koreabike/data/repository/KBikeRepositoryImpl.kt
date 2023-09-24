@@ -55,9 +55,19 @@ class KBikeRepositoryImpl(
         }
     }
 
-    override suspend fun getNavigationPath(start: String, end: String): Navigation {
+    override suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(Dispatchers.IO) {
         val response = remoteDataSource.getNavigationPath(start, end).apiNavigationRoute
-        return mapperApiRouteToNavigation(response.comfort)
+        return@withContext try {
+            if (!response.comfort.isNullOrEmpty()) {
+                Result.Success(
+                    mapperApiRouteToNavigation(response.comfort)
+                )
+            } else {
+                Result.Error(RuntimeException("Unknown Error :: Response data is null"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }
 
     override fun getAllAddress(): Flow<Result<List<Address>>> {
