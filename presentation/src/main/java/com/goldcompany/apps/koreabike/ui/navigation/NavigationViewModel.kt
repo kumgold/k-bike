@@ -11,7 +11,9 @@ import com.goldcompany.koreabike.domain.model.address.Address
 import com.goldcompany.koreabike.domain.usecase.GetNavigationPathUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,8 +29,7 @@ data class NavigationUiState(
     val uiState: UIState = UIState.INIT,
     val addresses: List<Address> = emptyList(),
     val page: Int = 1,
-    val isEnd: Boolean = false,
-    val isNavigateSuccess: Boolean = false
+    val isEnd: Boolean = false
 )
 
 @HiltViewModel
@@ -120,6 +121,9 @@ class NavigationViewModel @Inject constructor(
         }
     }
 
+    private val _navigationEvent = MutableSharedFlow<Boolean>()
+    val navigationEvent: SharedFlow<Boolean> = _navigationEvent
+
     fun getNavigationPath() {
         viewModelScope.launch {
             val start = _startAddress.value.coordinate
@@ -127,17 +131,14 @@ class NavigationViewModel @Inject constructor(
 
             when (getNavigationPathUseCase(start, end)) {
                 is Result.Success -> {
-                    _uiState.update {
-                        it.copy(
-                            isNavigateSuccess = true
-                        )
-                    }
+                    viewModelScope.launch { _navigationEvent.emit(true) }
                 }
                 else -> {
+                    viewModelScope.launch { _navigationEvent.emit(false) }
                     _uiState.update {
                         it.copy(
-                            uiState = UIState.ERROR,
-                            isNavigateSuccess = false
+                            addresses = emptyList(),
+                            uiState = UIState.ERROR
                         )
                     }
                 }

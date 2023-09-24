@@ -22,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -54,6 +55,14 @@ fun NavigationScreen(
     modifier: Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvent.collect { navigate ->
+            if (navigate) {
+                navController.navigate(KBikeScreen.NavigationDetail.route)
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -184,7 +193,9 @@ private fun SearchAddressListView(
     uiState: NavigationUiState,
     onClick: (Address) -> Unit
 ) {
-    val modifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
+    val modifier = Modifier
+        .fillMaxSize()
+        .padding(dimensionResource(id = R.dimen.default_margin))
     val listState: LazyListState = rememberLazyListState()
 
     when (uiState.uiState) {
