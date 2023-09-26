@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
 import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
 import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
@@ -55,10 +57,25 @@ fun KBikeNavHost(
                 modifier = navModifier
             )
         }
-        composable(KBikeScreen.NavigationDetail.route) {
+        composable(
+            route = "${KBikeScreen.NavigationDetail.route}/{startCoordinate},{endCoordinate}",
+            arguments = listOf(
+                navArgument("startCoordinate") {
+                    type = NavType.StringType
+                },
+                navArgument("endCoordinate") {
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->
+            val startCoordinate = entry.arguments?.getString("startCoordinate")
+            val endCoordinate = entry.arguments?.getString("endCoordinate")
+
             NavigationDetailScreen(
                 navController = navController,
-                modifier = navModifier
+                modifier = navModifier,
+                startCoordinate = startCoordinate,
+                endCoordinate = endCoordinate
             )
         }
     }

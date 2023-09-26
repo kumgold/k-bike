@@ -22,7 +22,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -56,14 +55,6 @@ fun NavigationScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.navigationEvent.collect { navigate ->
-            if (navigate) {
-                navController.navigate(KBikeScreen.NavigationDetail.route)
-            }
-        }
-    }
-
     Column(
         modifier = modifier
     ) {
@@ -74,7 +65,8 @@ fun NavigationScreen(
             }
         )
         SearchNavigationView(
-            viewModel = viewModel
+            viewModel = viewModel,
+            navController = navController
         )
         SearchAddressListView(
             uiState = uiState,
@@ -85,7 +77,8 @@ fun NavigationScreen(
 
 @Composable
 private fun SearchNavigationView(
-    viewModel: NavigationViewModel
+    viewModel: NavigationViewModel,
+    navController: NavController
 ) {
     val searchStartAddress by viewModel.searchStartAddress
     val searchEndAddress by viewModel.searchEndAddress
@@ -175,7 +168,10 @@ private fun SearchNavigationView(
                 contentColor = colorResource(id = R.color.white)
             ),
             onClick = {
-                viewModel.getNavigationPath()
+                navController.navigate(
+                    KBikeScreen.NavigationDetail.route +
+                            "/${viewModel.startCoordinate},${viewModel.endCoordinate}"
+                )
             },
             content = {
                 Text(

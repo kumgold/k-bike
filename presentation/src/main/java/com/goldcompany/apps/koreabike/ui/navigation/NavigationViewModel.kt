@@ -34,8 +34,7 @@ data class NavigationUiState(
 
 @HiltViewModel
 class NavigationViewModel @Inject constructor(
-    private val searchAddressUseCase: SearchAddressUseCase,
-    private val getNavigationPathUseCase: GetNavigationPathUseCase
+    private val searchAddressUseCase: SearchAddressUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NavigationUiState())
@@ -58,10 +57,12 @@ class NavigationViewModel @Inject constructor(
     private val _startAddress: MutableState<NavAddress> = mutableStateOf(
         value = NavAddress()
     )
+    val startCoordinate get() = _startAddress.value.coordinate
 
     private val _endAddress: MutableState<NavAddress> = mutableStateOf(
         value = NavAddress()
     )
+    val endCoordinate get() = _endAddress.value.coordinate
 
     private val _isStart: MutableState<Boolean> = mutableStateOf(value = true)
 
@@ -118,31 +119,6 @@ class NavigationViewModel @Inject constructor(
             it.copy(
                 uiState = UIState.LOADING
             )
-        }
-    }
-
-    private val _navigationEvent = MutableSharedFlow<Boolean>()
-    val navigationEvent: SharedFlow<Boolean> = _navigationEvent
-
-    fun getNavigationPath() {
-        viewModelScope.launch {
-            val start = _startAddress.value.coordinate
-            val end = _endAddress.value.coordinate
-
-            when (getNavigationPathUseCase(start, end)) {
-                is Result.Success -> {
-                    viewModelScope.launch { _navigationEvent.emit(true) }
-                }
-                else -> {
-                    viewModelScope.launch { _navigationEvent.emit(false) }
-                    _uiState.update {
-                        it.copy(
-                            addresses = emptyList(),
-                            uiState = UIState.ERROR
-                        )
-                    }
-                }
-            }
         }
     }
 }
