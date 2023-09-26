@@ -58,7 +58,7 @@ fun KBikeNavHost(
             )
         }
         composable(
-            route = "${KBikeScreen.NavigationDetail.route}/{startCoordinate},{endCoordinate}",
+            route = "${KBikeScreen.NavigationDetail.route}?startCoordinate={startCoordinate},endCoordinate={endCoordinate}",
             arguments = listOf(
                 navArgument("startCoordinate") {
                     type = NavType.StringType
@@ -68,14 +68,9 @@ fun KBikeNavHost(
                 }
             )
         ) { entry ->
-            val startCoordinate = entry.arguments?.getString("startCoordinate")
-            val endCoordinate = entry.arguments?.getString("endCoordinate")
-
             NavigationDetailScreen(
                 navController = navController,
-                modifier = navModifier,
-                startCoordinate = startCoordinate,
-                endCoordinate = endCoordinate
+                modifier = navModifier
             )
         }
     }

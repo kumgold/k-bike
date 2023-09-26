@@ -11,10 +11,7 @@ fun NavigationDetailScreen(
     viewModel: NavigationDetailViewModel = hiltViewModel(),
     navController: NavController,
     modifier: Modifier,
-    startCoordinate: String?,
-    endCoordinate: String?
 ) {
-    viewModel.getNavigationPath(startCoordinate!!, endCoordinate!!)
     GoogleMap(
         modifier = modifier
     ) {

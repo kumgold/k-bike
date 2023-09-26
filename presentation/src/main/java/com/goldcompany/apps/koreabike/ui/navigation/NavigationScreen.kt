@@ -170,7 +170,8 @@ private fun SearchNavigationView(
             onClick = {
                 navController.navigate(
                     KBikeScreen.NavigationDetail.route +
-                            "/${viewModel.startCoordinate},${viewModel.endCoordinate}"
+                            "?startCoordinate=${viewModel.startCoordinate}," +
+                            "endCoordinate=${viewModel.endCoordinate}"
                 )
             },
             content = {

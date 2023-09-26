@@ -1,5 +1,6 @@
 package com.goldcompany.koreabike.data.repository
 
+import android.util.Log
 import com.goldcompany.koreabike.data.mapper.mapperAddressEntityListToAddressList
 import com.goldcompany.koreabike.data.mapper.mapperAddressToUserAddressEntity
 import com.goldcompany.koreabike.data.mapper.mapperApiAddressToAddress
@@ -56,11 +57,13 @@ class KBikeRepositoryImpl(
     }
 
     override suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(Dispatchers.IO) {
-        val response = remoteDataSource.getNavigationPath(start, end).apiNavigationRoute
+        val response = remoteDataSource.getNavigationPath(start, end)
+        Log.d("Navigation", "start : $start, end : $end, response : $response")
+
         return@withContext try {
-            if (!response.comfort.isNullOrEmpty()) {
+            if (!response.apiNavigationRoute.comfort.isNullOrEmpty()) {
                 Result.Success(
-                    mapperApiRouteToNavigation(response.comfort)
+                    mapperApiRouteToNavigation(response.apiNavigationRoute.comfort)
                 )
             } else {
                 Result.Error(RuntimeException("Unknown Error :: Response data is null"))
