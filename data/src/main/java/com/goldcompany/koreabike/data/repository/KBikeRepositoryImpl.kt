@@ -58,7 +58,6 @@ class KBikeRepositoryImpl(
 
     override suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(Dispatchers.IO) {
         val response = remoteDataSource.getNavigationPath(start, end)
-        Log.d("Navigation", "start : $start, end : $end, response : $response")
 
         return@withContext try {
             if (!response.apiNavigationRoute.comfort.isNullOrEmpty()) {
@@ -66,6 +65,7 @@ class KBikeRepositoryImpl(
                     mapperApiRouteToNavigation(response.apiNavigationRoute.comfort)
                 )
             } else {
+                Log.e("Navigation", "response : $response")
                 Result.Error(RuntimeException("Unknown Error :: Response data is null"))
             }
         } catch (e: Exception) {
