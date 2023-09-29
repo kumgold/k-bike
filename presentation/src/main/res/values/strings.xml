@@ -39,4 +39,7 @@
     <string name="search_list">검색목록</string>
     <string name="record_screen">기록</string>
     <string name="back_to_page">이전화면</string>
+
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>

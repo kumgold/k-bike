@@ -1,12 +1,16 @@
 package com.goldcompany.apps.koreabike.ui.navigationdetail
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
+import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.UIState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -24,14 +28,45 @@ fun NavigationDetailScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
-    when (uiState.value.uiState) {
+    Column(
+        modifier = modifier
+    ) {
+        DefaultKBikeTopAppBar(
+            title = R.string.navigation,
+            navigateBack = {
+                navController.popBackStack()
+            }
+        )
+        MapView(
+            modifier = modifier,
+            uiState = uiState.value.uiState,
+            path = uiState.value.path,
+            duration = uiState.value.duration,
+            distance = uiState.value.distance
+        )
+    }
+
+
+}
+
+@Composable
+private fun MapView(
+    modifier: Modifier,
+    uiState: UIState,
+    path: List<LatLng>,
+    duration: Int,
+    distance: Int
+) {
+    when (uiState) {
         UIState.LOADING -> {
             CircularLoadingView(modifier)
         }
         UIState.DONE -> {
             NavigationPathView(
                 modifier = modifier,
-                path = uiState.value.path
+                path = path,
+                duration = duration,
+                distance = distance
             )
         }
         else -> {
@@ -43,25 +78,27 @@ fun NavigationDetailScreen(
 @Composable
 private fun NavigationPathView(
     modifier: Modifier,
-    path: List<LatLng>
+    path: List<LatLng>,
+    duration: Int,
+    distance: Int
 ) {
     GoogleMap(
         modifier = modifier,
         cameraPositionState = CameraPositionState(
-            position = CameraPosition.fromLatLngZoom(path.first(), 16f)
+            position = CameraPosition.fromLatLngZoom(path[path.size/2], 13f)
         )
     ) {
         Marker(
             state = MarkerState(path.first()),
-            title = "From"
+            title = stringResource(id = R.string.from)
         )
         Polyline(
             points = path,
-            color = Color.Green
+            color = colorResource(id = R.color.green)
         )
         Marker(
             state = MarkerState(path.last()),
-            title = "To"
+            title = stringResource(id = R.string.to)
         )
     }
 }
