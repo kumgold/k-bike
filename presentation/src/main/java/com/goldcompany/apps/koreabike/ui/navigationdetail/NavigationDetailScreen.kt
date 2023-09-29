@@ -85,7 +85,7 @@ private fun NavigationPathView(
     GoogleMap(
         modifier = modifier,
         cameraPositionState = CameraPositionState(
-            position = CameraPosition.fromLatLngZoom(path[path.size/2], 13f)
+            position = CameraPosition.fromLatLngZoom(path.first(), 13f)
         )
     ) {
         Marker(
