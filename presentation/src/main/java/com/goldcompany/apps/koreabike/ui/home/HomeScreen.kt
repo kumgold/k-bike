@@ -27,8 +27,7 @@ fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
     val navController = rememberNavController()
     val items = listOf(
         KBikeScreen.BikeMap,
-        KBikeScreen.MyPlace,
-        KBikeScreen.Record
+        KBikeScreen.MyPlace
     )
     val map = mapOf(
         KBikeScreen.BikeMap.route to R.drawable.ic_bike_map,
