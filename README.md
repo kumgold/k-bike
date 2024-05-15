@@ -1,5 +1,4 @@
 # Android 개발 스터디 목적 프로젝트 K-자전거
-<h2>화면</h2>
 <img src="./images/main.png" height="400" width="250">
 <br>
 <p>
