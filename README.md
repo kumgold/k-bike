@@ -1,18 +1,4 @@
 # Android 개발 스터디 목적 프로젝트 K-자전거
-
-자전거인들을 위한 애플리케이션 <br>
-
-K-자전거는 자전거를 탈 때 고려해야 하는 여러 기능들을 지도 형태로 제공하는 서비스입니다. <br>
-위치 서비스를 기반으로 주변 주요 시설 검색과 내비게이션 서비스를 이용할 수 있습니다. <r><br>
-<br><br>
-개발인원 : 1명(개인 프로젝트) <br>
-개발기간 : 2020.12 - 지속적이 리팩터링 <br>
-사용 API : Naver Api, Kakao Api <br>
-기술 스택 : <br>
-Kotlin, Clean Architecture, Android Jetpack, AAC(ViewModel, LiveData, Binding, Navigation), Room<br>
-Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
-<br><br>
-
 <h2>화면</h2>
 <img src="./images/main.png" height="400" width="250">
 <br>
@@ -21,9 +7,13 @@ Kotlin Coroutine Flow, Room, Hilt, Jetpack Compose, Retrofit <br>
   <img src="./images/history.png" height="400" width="250">
 </p>
 
+<br>
 
-
-
-
-
+[라이브러리 목록]<br>
+1. Jetpack Compose : UI<br>
+2. Kotlin Coroutine : 비동기<br>
+3. Kotlin Flow : Reactive Stream
+4. Retrofit : 네트워크
+6. Hilt : DI 라이브러리
+7. Room : 로컬 데이터베이스
 
