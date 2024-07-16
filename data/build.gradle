@@ -15,7 +15,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
+        buildConfigField("String", "KAKAO_BASE_URL", "\"https://dapi.kakao.com/\"")
         buildConfigField("String", "KAKAO_API_KEY", KAKAO_API_KEY)
+
+        buildConfigField("String", "NAVER_BASE_URL", "\"https://naveropenapi.apigw.ntruss.com/\"")
         buildConfigField("String", "NAVER_CLIENT_SECRET", NAVER_CLIENT_SECRET)
         buildConfigField("String", "NAVER_CLIENT_ID", NAVER_CLIENT_ID)
     }
