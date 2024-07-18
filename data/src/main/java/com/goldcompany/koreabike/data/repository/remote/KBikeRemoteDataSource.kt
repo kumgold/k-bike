@@ -1,6 +1,5 @@
 package com.goldcompany.koreabike.data.repository.remote
 
-import com.goldcompany.koreabike.data.BuildConfig
 import com.goldcompany.koreabike.data.api.KakaoApiService
 import com.goldcompany.koreabike.data.api.NaverApiService
 import com.goldcompany.koreabike.data.model.address.ApiAddressResponse
@@ -32,7 +31,6 @@ class KBikeRemoteDataSourceImpl(
 
     override suspend fun searchAddress(address: String, page: Int): ApiAddressResponse = withContext(ioDispatcher) {
         return@withContext kakaoApiService.searchAddress(
-            key = BuildConfig.KAKAO_API_KEY,
             address = address,
             page = page
         )
@@ -44,7 +42,6 @@ class KBikeRemoteDataSourceImpl(
         latitude: String
     ): ApiPlaceMarkerResponse = withContext(ioDispatcher) {
         return@withContext kakaoApiService.searchCategoryPlaces(
-            key = BuildConfig.KAKAO_API_KEY,
             code = code,
             longitude = longitude,
             latitude = latitude,
@@ -54,8 +51,6 @@ class KBikeRemoteDataSourceImpl(
 
     override suspend fun getNavigationPath(start: String, end: String): ApiNavigationPathResponse = withContext(ioDispatcher) {
         return@withContext naverApiService.getPath(
-            apiKeyId = BuildConfig.NAVER_CLIENT_ID,
-            apiKey = BuildConfig.NAVER_CLIENT_SECRET,
             start = start,
             goal = end
         )

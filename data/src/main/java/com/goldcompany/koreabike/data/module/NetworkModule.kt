@@ -3,6 +3,8 @@ package com.goldcompany.koreabike.data.module
 import com.goldcompany.koreabike.data.BuildConfig
 import com.goldcompany.koreabike.data.api.KakaoApiService
 import com.goldcompany.koreabike.data.api.NaverApiService
+import com.goldcompany.koreabike.data.interceptor.KakaoInterceptor
+import com.goldcompany.koreabike.data.interceptor.NaverInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +21,7 @@ class NetworkModule {
     @Provides
     fun provideKakaoApiService(): KakaoApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.KAKAO_BASE_URL)
-        .client(OkHttpClient.Builder().build())
+        .client(OkHttpClient.Builder().addInterceptor(KakaoInterceptor()).build())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(KakaoApiService::class.java)
@@ -28,7 +30,7 @@ class NetworkModule {
     @Provides
     fun provideNaverApiService(): NaverApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.NAVER_BASE_URL)
-        .client(OkHttpClient.Builder().build())
+        .client(OkHttpClient.Builder().addInterceptor(NaverInterceptor()).build())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(NaverApiService::class.java)
