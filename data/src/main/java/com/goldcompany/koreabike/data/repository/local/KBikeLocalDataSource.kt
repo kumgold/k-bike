@@ -32,8 +32,10 @@ class KBikeLocalDataSourceImpl(private val addressDAO: AddressDAO): KBikeLocalDa
         return addressDAO.getAddress()
     }
 
-    override suspend fun updateCurrentAddressUnselected(id: String) = withContext(ioDispatcher) {
-        addressDAO.updateCurrentAddressUnselected(id)
+    override suspend fun updateCurrentAddressUnselected(id: String) {
+        withContext(ioDispatcher) {
+            addressDAO.updateCurrentAddressUnselected(id)
+        }
     }
 
     override suspend fun insertAddress(address: AddressEntity) {

@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     namespace = "com.goldcompany.koreabike.domain"
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -46,7 +46,6 @@ dependencies {
 
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
     // When using Kotlin.
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
