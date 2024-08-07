@@ -1,8 +1,12 @@
-# Android 개발 스터디 목적 프로젝트 K-자전거
+# K-자전거
 <p>
   <img src="./images/main.png" width="280">
   <img src="./images/search_address.png" width="280">
 </p>
+
+원하는 위치를 지도에 표시할 수 있고 네비게이션을 통해 도착 예상 시간을 파악할 수 있다!<br>
+주소 검색을 통해서 해당 위치 주변 시설 파악 가능<br>
+마커 클릭을 통해 위치 검색 가능(WebView)<br>
 
 <br>
 
