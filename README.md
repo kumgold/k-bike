@@ -7,7 +7,7 @@
 <br>
 
 [App Architecture]<br>
-<img src="./images/layer.png>
+<img src="./images/layer.png">
 
 <br>
 
