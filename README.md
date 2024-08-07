@@ -1,10 +1,13 @@
 # Android 개발 스터디 목적 프로젝트 K-자전거
-<img src="./images/main.png" width="280">
-<br>
 <p>
+  <img src="./images/main.png" width="280">
   <img src="./images/search_address.png" width="280">
-  <img src="./images/history.png" width="280">
 </p>
+
+<br>
+
+[App Architecture]<br>
+<img src="./images/layer.png>
 
 <br>
 
