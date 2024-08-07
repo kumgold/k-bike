@@ -15,7 +15,6 @@
     <string name="search_address_hint">장소, 지하철을 검색하세요.</string>
     <string name="search_address_button">검색</string>
     <string name="navigation_button">길찾기</string>
-    <string name="search_address_hint2">주소를 검색하세요.</string>
 
     <string name="current_location">현재 위치</string>
     <string name="my_location">내 위치</string>
@@ -31,7 +30,7 @@
     <string name="have_to_input_departure">출발지를 입력해주세요.</string>
     <string name="have_to_input_destination">도착지를 입력해주세요.</string>
 
-    <string name="init_page">주소를 검색해주세요.</string>
+    <string name="init_page">주소를 검색하세요.</string>
     <string name="no_data">결과를 찾을 수 없습니다.</string>
     <string name="retry">다시 시도</string>
     <string name="navigation_fragment_title">내비게이션</string>

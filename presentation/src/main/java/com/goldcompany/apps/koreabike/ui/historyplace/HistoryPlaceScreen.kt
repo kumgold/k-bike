@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.nav.KBikeScreen
@@ -72,8 +73,8 @@ fun AddressLazyColumn(
 ) {
     if (addressList.isEmpty()) {
         DefaultTextView(
-            modifier = modifier,
-            stringResource = R.string.search_address_hint2
+            modifier = modifier.padding(top = 10.dp),
+            stringResource = R.string.init_page
         )
     } else {
         LazyColumn(

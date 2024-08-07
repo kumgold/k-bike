@@ -152,7 +152,7 @@ private fun SearchAddressBar(
             content = {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = stringResource(id = R.string.search_address_hint2),
+                    text = stringResource(id = R.string.init_page),
                     textAlign = TextAlign.Start,
                     style = KBikeTypography.button
                 )
