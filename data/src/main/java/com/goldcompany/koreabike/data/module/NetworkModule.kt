@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,7 +22,16 @@ class NetworkModule {
     @Provides
     fun provideKakaoApiService(): KakaoApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.KAKAO_BASE_URL)
-        .client(OkHttpClient.Builder().addInterceptor(KakaoInterceptor()).build())
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(KakaoInterceptor())
+                .addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    }
+                )
+                .build()
+        )
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(KakaoApiService::class.java)
@@ -30,7 +40,16 @@ class NetworkModule {
     @Provides
     fun provideNaverApiService(): NaverApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.NAVER_BASE_URL)
-        .client(OkHttpClient.Builder().addInterceptor(NaverInterceptor()).build())
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(NaverInterceptor())
+                .addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    }
+                )
+                .build()
+        )
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(NaverApiService::class.java)
