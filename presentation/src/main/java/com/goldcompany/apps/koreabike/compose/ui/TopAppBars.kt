@@ -1,6 +1,9 @@
 package com.goldcompany.apps.koreabike.compose.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -73,6 +76,7 @@ fun DefaultKBikeTopAppBar(
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchAppBar(
     @StringRes title: Int,
@@ -84,21 +88,26 @@ fun SearchAppBar(
     onSearchPlaceChange: (String) -> Unit,
     onSearch: (String) -> Unit
 ) {
-    when (searchAppBarState) {
-        SearchAppBarState.OPENED -> {
-            SearchTextField(
-                place = place,
-                onClickForSearchClose = onClickForSearchClose,
-                onSearchPlaceChange = onSearchPlaceChange,
-                onSearch = onSearch
-            )
-        }
-        SearchAppBarState.CLOSED -> {
-            DefaultSearchAppBar(
-                title = title,
-                onClickForSearch = onClickForSearch,
-                navigateBack = navigateBack
-            )
+    AnimatedContent(
+        modifier = Modifier.background(color = colorResource(id = R.color.colorPrimary)),
+        targetState = searchAppBarState
+    ) { state ->
+        when (state) {
+            SearchAppBarState.OPENED -> {
+                SearchTextField(
+                    place = place,
+                    onClickForSearchClose = onClickForSearchClose,
+                    onSearchPlaceChange = onSearchPlaceChange,
+                    onSearch = onSearch
+                )
+            }
+            SearchAppBarState.CLOSED -> {
+                DefaultSearchAppBar(
+                    title = title,
+                    onClickForSearch = onClickForSearch,
+                    navigateBack = navigateBack
+                )
+            }
         }
     }
 }
