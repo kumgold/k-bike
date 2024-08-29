@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.goldcompany.apps.koreabike.compose.ui.SearchAppBarState
 import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
@@ -13,7 +12,11 @@ import com.goldcompany.koreabike.domain.usecase.InsertAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.UpdateCurrentAddressUnselectedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,14 +52,6 @@ class SearchAddressViewModel @Inject constructor(
         }
     }
 
-    private val _searchAppBarState: MutableState<SearchAppBarState> =
-        mutableStateOf(value = SearchAppBarState.CLOSED)
-    val searchAppBarState = _searchAppBarState
-
-    fun setSearchAppBarStateOpen() {
-        searchAppBarState.value = SearchAppBarState.OPENED
-    }
-
     private val _searchAddressState: MutableState<String> =
         mutableStateOf(value = "")
     val searchAddressState = _searchAddressState
@@ -67,7 +62,6 @@ class SearchAddressViewModel @Inject constructor(
 
     fun setSearchAppBarStateClose() {
         if (_searchAddressState.value.isEmpty()) {
-            searchAppBarState.value = SearchAppBarState.CLOSED
             _uiState.update {
                 it.copy(
                     page = 1,
@@ -94,7 +88,7 @@ class SearchAddressViewModel @Inject constructor(
             val currentPlace = place ?: _uiState.value.currentPlace
             val response = searchAddressUseCase(
                 address = currentPlace,
-                page = _uiState.value.page
+                page = _uiState.value.page + 1
             )
 
             if (response is Result.Success) {

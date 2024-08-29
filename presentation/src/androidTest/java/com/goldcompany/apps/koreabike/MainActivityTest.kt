@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.goldcompany.apps.koreabike.compose.KBikeComposeTheme
-import com.goldcompany.apps.koreabike.nav.KBikeScreen
+import com.goldcompany.apps.koreabike.util.KBikeScreen
 import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before

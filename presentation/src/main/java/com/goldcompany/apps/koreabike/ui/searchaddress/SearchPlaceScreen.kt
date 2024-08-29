@@ -1,10 +1,10 @@
 package com.goldcompany.apps.koreabike.ui.searchaddress
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -16,10 +16,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
+import com.goldcompany.apps.koreabike.compose.ui.DefaultSearchAppBar
 import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
 import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
-import com.goldcompany.apps.koreabike.compose.ui.SearchAppBar
 import com.goldcompany.apps.koreabike.util.UIState
 
 @Composable
@@ -29,45 +29,36 @@ fun SearchAddressScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavController
 ) {
-    val searchAppBarState by viewModel.searchAppBarState
-    val searchAddressState by viewModel.searchAddressState
+    val uiState by viewModel.uiState.collectAsState()
 
-    val listState: LazyListState = rememberLazyListState()
-
-    Scaffold(
-        modifier = modifier,
-        scaffoldState = scaffoldState,
-        topBar = {
-            SearchAppBar(
-                title = R.string.search_list,
-                place = searchAddressState,
-                searchAppBarState = searchAppBarState,
-                navigateBack = { navController.popBackStack() },
-                onClickForSearch = { viewModel.setSearchAppBarStateOpen() },
-                onClickForSearchClose = { viewModel.setSearchAppBarStateClose() },
-                onSearchPlaceChange = viewModel::setSearchAddressState,
-                onSearch = viewModel::searchAddress
-            )
-        }
-    ) { paddingValues ->
-        val uiState by viewModel.uiState.collectAsState()
-        val commonModifier = Modifier.fillMaxSize().padding(dimensionResource(id = R.dimen.default_margin))
+    Column {
+        DefaultSearchAppBar(
+            title = R.string.search_list,
+            navigateBack = { navController.popBackStack() }
+        )
 
         when (uiState.uiState) {
             UIState.INIT -> {
                 DefaultTextView(
-                    modifier = commonModifier,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(id = R.dimen.default_margin)),
                     stringResource = R.string.init_page
                 )
             }
             UIState.LOADING -> {
-                CircularLoadingView(commonModifier)
-            }
-            UIState.DONE -> {
-                SearchAddressResultView(
+                CircularLoadingView(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
+                        .padding(dimensionResource(id = R.dimen.default_margin))
+                )
+            }
+            UIState.DONE -> {
+                val listState: LazyListState = rememberLazyListState()
+
+                SearchAddressResultView(
+                    modifier = Modifier
+                        .fillMaxSize(),
                     addressList = uiState.addresses,
                     onClick = viewModel::setCurrentAddress,
                     navigateBack = { navController.popBackStack() },
@@ -76,7 +67,11 @@ fun SearchAddressScreen(
                 )
             }
             else -> {
-                ErrorMessageTextView(commonModifier)
+                ErrorMessageTextView(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(id = R.dimen.default_margin))
+                )
             }
         }
     }

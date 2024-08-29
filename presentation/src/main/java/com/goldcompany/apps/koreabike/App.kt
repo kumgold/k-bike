@@ -1,9 +1,15 @@
-package com.goldcompany.apps.koreabike.ui.home
+package com.goldcompany.apps.koreabike
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.NavigationRail
+import androidx.compose.material.NavigationRailItem
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,11 +22,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.nav.KBikeNavHost
-import com.goldcompany.apps.koreabike.nav.KBikeScreen
+import androidx.navigation.navArgument
+import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
+import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
+import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
+import com.goldcompany.apps.koreabike.ui.navigationdetail.NavigationDetailScreen
+import com.goldcompany.apps.koreabike.ui.searchaddress.SearchAddressScreen
+import com.goldcompany.apps.koreabike.util.KBikeScreen
 
 @Composable
 fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
@@ -150,5 +163,60 @@ private fun ExpandedScreen(
             modifier = Modifier.fillMaxSize(),
             navController = navController
         )
+    }
+}
+
+@Composable
+fun KBikeNavHost(
+    modifier: Modifier,
+    navController: NavHostController
+) {
+    val navModifier = Modifier.fillMaxSize()
+
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = KBikeScreen.BikeMap.route
+    ) {
+        composable(KBikeScreen.BikeMap.route) {
+            BikeMapScreen(
+                modifier = navModifier,
+                navController = navController
+            )
+        }
+        composable(KBikeScreen.SearchPlace.route) {
+            SearchAddressScreen(
+                modifier = navModifier,
+                navController = navController
+            )
+        }
+        composable(KBikeScreen.MyPlace.route) {
+            HistoryPlaceScreen(
+                modifier = navModifier,
+                navController = navController
+            )
+        }
+        composable(KBikeScreen.Navigation.route) {
+            NavigationScreen(
+                navController = navController,
+                modifier = navModifier
+            )
+        }
+        composable(
+            route = "${KBikeScreen.NavigationDetail.route}?startCoordinate={startCoordinate},endCoordinate={endCoordinate}",
+            arguments = listOf(
+                navArgument("startCoordinate") {
+                    type = NavType.StringType
+                },
+                navArgument("endCoordinate") {
+                    type = NavType.StringType
+                }
+            )
+        ) { entry ->
+            NavigationDetailScreen(
+                navController = navController,
+                modifier = navModifier
+            )
+        }
     }
 }

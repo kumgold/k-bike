@@ -3,17 +3,15 @@ package com.goldcompany.apps.koreabike.compose.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -59,30 +57,11 @@ private fun AddressLazyColumn(
     searchNextAddressPage: () -> Unit,
     listState: LazyListState = rememberLazyListState()
 ) {
-    // remember -> save some state to composable
-    val endOfListReached by remember {
-        // derivedStateOf -> can be used for this to reduce the number of recompositions.
-        // https://medium.com/androiddevelopers/jetpack-compose-when-should-i-use-derivedstateof-63ce7954c11b
-        derivedStateOf {
-            listState.isScrolledToEnd()
-        }
-    }
-    val defaultMargin = dimensionResource(id = R.dimen.default_margin)
-
-    LaunchedEffect(
-        endOfListReached
-    ) {
-        if (endOfListReached) {
-            searchNextAddressPage()
-        }
-    }
-
     LazyColumn(
         contentPadding = PaddingValues(
-            top = defaultMargin,
-            bottom = defaultMargin
+            vertical = dimensionResource(id = R.dimen.default_margin)
         ),
-        verticalArrangement = Arrangement.spacedBy(defaultMargin),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_margin)),
         modifier = modifier,
         state = listState
     ) {
@@ -98,10 +77,15 @@ private fun AddressLazyColumn(
                 navigateBack = navigateBack
             )
         }
+        if (addressList.isNotEmpty()) {
+            item {
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { searchNextAddressPage() }
+                ) {
+                    Text(text = "More")
+                }
+            }
+        }
     }
-}
-
-fun LazyListState.isScrolledToEnd(): Boolean {
-    val lastItem = layoutInfo.visibleItemsInfo.lastOrNull()
-    return lastItem?.index == layoutInfo.totalItemsCount - 1
 }
