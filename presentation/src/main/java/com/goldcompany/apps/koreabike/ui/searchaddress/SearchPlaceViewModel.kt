@@ -23,6 +23,7 @@ import javax.inject.Inject
 @Stable
 data class SearchAddressUiState(
     val addressList: List<Address> = emptyList(),
+    val isEnd: Boolean = false,
     val isLoading: Boolean = false,
     val message: Int? = null
 )
@@ -43,14 +44,16 @@ class SearchPlaceViewModel @Inject constructor(
     }.catch<Async<List<Address>>> {
         emit(Async.Error(R.string.error_code))
     }
+    private val _isEnd = MutableStateFlow(false)
     private val _isLoading = MutableStateFlow(false)
     private val _userMessage = MutableStateFlow<Int?>(null)
 
     val uiState = combine(
         _searchAddressAsync,
+        _isEnd,
         _isLoading,
         _userMessage
-    ) { addressAsync, isLoading, message ->
+    ) { addressAsync, isEnd, isLoading, message ->
         when (addressAsync) {
             Async.Loading -> {
                 SearchAddressUiState(isLoading = true)
@@ -58,6 +61,7 @@ class SearchPlaceViewModel @Inject constructor(
             is Async.Success -> {
                 SearchAddressUiState(
                     addressList = addressAsync.data,
+                    isEnd = isEnd,
                     isLoading = false
                 )
             }
@@ -86,6 +90,8 @@ class SearchPlaceViewModel @Inject constructor(
 
         return if (response is Result.Success) {
             _addressList.value += response.data.list
+            _isEnd.update { response.data.isEnd }
+
             return _addressList.value
         } else {
             emptyList()
@@ -93,9 +99,9 @@ class SearchPlaceViewModel @Inject constructor(
     }
 
     fun searchPlace(placeName: String) {
+        _addressList.value = emptyList()
         _page.value = 1
         _currentPlaceName.update { placeName }
-        _addressList.value = emptyList()
     }
 
     fun getNextPage() {

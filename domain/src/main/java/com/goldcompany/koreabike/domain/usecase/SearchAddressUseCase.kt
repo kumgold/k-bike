@@ -16,7 +16,8 @@ class SearchAddressUseCase @Inject constructor(private val repository: KBikeRepo
             if (result.succeeded) {
                 return@withContext result
             } else {
-                return@withContext Result.Error(Exception("unknown error."))
+                val e = (result as Result.Error)
+                return@withContext Result.Error(e.exception)
             }
         }
     }

@@ -53,7 +53,8 @@ fun SearchPlaceScreen(
                     onClick = {},
                     navigateBack = { navController.popBackStack() },
                     searchNextAddressPage = { viewModel.getNextPage() },
-                    listState = listState
+                    listState = listState,
+                    isEnd = uiState.isEnd
                 )
             } else {
                 DefaultTextView(

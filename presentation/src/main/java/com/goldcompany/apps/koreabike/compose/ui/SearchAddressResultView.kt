@@ -26,7 +26,8 @@ fun SearchAddressResultView(
     onClick: (Address) -> Unit,
     navigateBack: () -> Unit = {},
     searchNextAddressPage: () -> Unit,
-    listState: LazyListState
+    listState: LazyListState,
+    isEnd: Boolean = true
 ) {
     if (addressList.isEmpty()) {
         Text(
@@ -40,10 +41,11 @@ fun SearchAddressResultView(
         AddressLazyColumn(
             modifier = modifier,
             addressList = addressList,
-            onClick = onClick,
+            onAddressClick = onClick,
             navigateBack = navigateBack,
             searchNextAddressPage = searchNextAddressPage,
-            listState = listState
+            listState = listState,
+            isEnd = isEnd
         )
     }
 }
@@ -52,10 +54,11 @@ fun SearchAddressResultView(
 private fun AddressLazyColumn(
     modifier: Modifier,
     addressList: List<Address>,
-    onClick: (Address) -> Unit,
+    onAddressClick: (Address) -> Unit,
     navigateBack: () -> Unit,
     searchNextAddressPage: () -> Unit,
-    listState: LazyListState = rememberLazyListState()
+    listState: LazyListState = rememberLazyListState(),
+    isEnd: Boolean = true
 ) {
     LazyColumn(
         contentPadding = PaddingValues(
@@ -73,11 +76,11 @@ private fun AddressLazyColumn(
         ) { address ->
             DefaultAddressItemView(
                 address = address,
-                onClick = onClick,
+                onClick = onAddressClick,
                 navigateBack = navigateBack
             )
         }
-        if (addressList.isNotEmpty()) {
+        if (addressList.isNotEmpty() && !isEnd) {
             item {
                 TextButton(
                     modifier = Modifier.fillMaxWidth(),
