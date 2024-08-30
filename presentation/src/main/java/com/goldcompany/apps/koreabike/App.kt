@@ -10,10 +10,13 @@ import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -32,12 +35,13 @@ import com.goldcompany.apps.koreabike.ui.bikemap.BikeMapScreen
 import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
 import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
 import com.goldcompany.apps.koreabike.ui.navigationdetail.NavigationDetailScreen
-import com.goldcompany.apps.koreabike.ui.searchaddress.SearchAddressScreen
+import com.goldcompany.apps.koreabike.ui.searchaddress.SearchPlaceScreen
 import com.goldcompany.apps.koreabike.util.KBikeScreen
 
 @Composable
 fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
     val navController = rememberNavController()
+    val snackBarHostState = remember { SnackbarHostState() }
     val items = listOf(
         KBikeScreen.BikeMap,
         KBikeScreen.MyPlace
@@ -52,6 +56,7 @@ fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             CompactScreen(
                 navController = navController,
+                snackBarHostState = snackBarHostState,
                 items = items,
                 map = map
             )
@@ -59,6 +64,7 @@ fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
         else -> {
             ExpandedScreen(
                 navController = navController,
+                snackBarHostState = snackBarHostState,
                 items = items,
                 map = map
             )
@@ -69,6 +75,7 @@ fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
 @Composable
 private fun CompactScreen(
     navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
     items: List<KBikeScreen>,
     map: Map<String, Int>
 ) {
@@ -83,6 +90,9 @@ private fun CompactScreen(
     }
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        },
         bottomBar = {
             if (showBottomBar.value) {
                 BottomNavigation(
@@ -119,7 +129,8 @@ private fun CompactScreen(
     ) { innerPadding ->
         KBikeNavHost(
             modifier = Modifier.padding(innerPadding),
-            navController = navController
+            navController = navController,
+            snackBarHostState = snackBarHostState
         )
     }
 }
@@ -127,49 +138,58 @@ private fun CompactScreen(
 @Composable
 private fun ExpandedScreen(
     navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
     items: List<KBikeScreen>,
     map: Map<String, Int>
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    Row(modifier = Modifier.fillMaxSize()) {
-        NavigationRail {
-            val currentDestination = navBackStackEntry?.destination
-            items.forEach { screen ->
-                NavigationRailItem(
-                    icon = {
-                        map[screen.route]?.let { painterResource(id = it) }?.let {
-                            Icon(
-                                painter = it,
-                                contentDescription = stringResource(id = screen.resourceId)
-                            )
-                        }
-                    },
-                    label = { Text(stringResource(id = screen.resourceId)) },
-                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-            }
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
         }
-        KBikeNavHost(
-            modifier = Modifier.fillMaxSize(),
-            navController = navController
-        )
+    ) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            NavigationRail {
+                val currentDestination = navBackStackEntry?.destination
+                items.forEach { screen ->
+                    NavigationRailItem(
+                        icon = {
+                            map[screen.route]?.let { painterResource(id = it) }?.let {
+                                Icon(
+                                    painter = it,
+                                    contentDescription = stringResource(id = screen.resourceId)
+                                )
+                            }
+                        },
+                        label = { Text(stringResource(id = screen.resourceId)) },
+                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                        onClick = {
+                            navController.navigate(screen.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                }
+            }
+            KBikeNavHost(
+                modifier = Modifier.fillMaxSize(),
+                navController = navController,
+                snackBarHostState = snackBarHostState
+            )
+        }
     }
 }
 
 @Composable
 fun KBikeNavHost(
     modifier: Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    snackBarHostState: SnackbarHostState
 ) {
     val navModifier = Modifier.fillMaxSize()
 
@@ -185,9 +205,9 @@ fun KBikeNavHost(
             )
         }
         composable(KBikeScreen.SearchPlace.route) {
-            SearchAddressScreen(
-                modifier = navModifier,
-                navController = navController
+            SearchPlaceScreen(
+                navController = navController,
+                snackBarHostState = snackBarHostState
             )
         }
         composable(KBikeScreen.MyPlace.route) {

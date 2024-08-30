@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,16 +17,14 @@ import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
 import com.goldcompany.apps.koreabike.compose.ui.DefaultSearchAppBar
 import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
-import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
-import com.goldcompany.apps.koreabike.util.UIState
+import com.goldcompany.apps.koreabike.compose.ui.SearchTextField
 
 @Composable
-fun SearchAddressScreen(
-    modifier: Modifier = Modifier,
-    viewModel: SearchAddressViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navController: NavController
+fun SearchPlaceScreen(
+    viewModel: SearchPlaceViewModel = hiltViewModel(),
+    navController: NavController,
+    snackBarHostState: SnackbarHostState
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -36,41 +33,34 @@ fun SearchAddressScreen(
             title = R.string.search_list,
             navigateBack = { navController.popBackStack() }
         )
+        SearchTextField { place ->
+            viewModel.searchPlace(place)
+        }
 
-        when (uiState.uiState) {
-            UIState.INIT -> {
+        if (uiState.isLoading) {
+            CircularLoadingView(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.default_margin))
+            )
+        } else {
+            if (uiState.addressList.isNotEmpty()) {
+                val listState: LazyListState = rememberLazyListState()
+
+                SearchAddressResultView(
+                    modifier = Modifier.fillMaxSize(),
+                    addressList = uiState.addressList,
+                    onClick = {},
+                    navigateBack = { navController.popBackStack() },
+                    searchNextAddressPage = { viewModel.getNextPage() },
+                    listState = listState
+                )
+            } else {
                 DefaultTextView(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(id = R.dimen.default_margin)),
                     stringResource = R.string.init_page
-                )
-            }
-            UIState.LOADING -> {
-                CircularLoadingView(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(id = R.dimen.default_margin))
-                )
-            }
-            UIState.DONE -> {
-                val listState: LazyListState = rememberLazyListState()
-
-                SearchAddressResultView(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    addressList = uiState.addresses,
-                    onClick = viewModel::setCurrentAddress,
-                    navigateBack = { navController.popBackStack() },
-                    searchNextAddressPage = viewModel::searchAddress,
-                    listState = listState
-                )
-            }
-            else -> {
-                ErrorMessageTextView(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(id = R.dimen.default_margin))
                 )
             }
         }

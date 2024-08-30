@@ -1,139 +1,106 @@
 package com.goldcompany.apps.koreabike.ui.searchaddress
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.goldcompany.apps.koreabike.util.UIState
+import com.goldcompany.apps.koreabike.R
+import com.goldcompany.apps.koreabike.util.Async
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.usecase.GetCurrentAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.InsertAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.UpdateCurrentAddressUnselectedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 data class SearchAddressUiState(
-    val uiState: UIState = UIState.INIT,
-    val addresses: List<Address> = emptyList(),
-    val page: Int = 1,
-    val currentPlace: String = "",
-    val isEnd: Boolean = false,
+    val addressList: List<Address> = emptyList(),
+    val isLoading: Boolean = false,
     val message: Int? = null
 )
 
 @HiltViewModel
-class SearchAddressViewModel @Inject constructor(
+class SearchPlaceViewModel @Inject constructor(
     private val searchAddressUseCase: SearchAddressUseCase,
-    private val getCurrentAddressUseCase: GetCurrentAddressUseCase,
     private val updateCurrentAddressUnselectedUseCase: UpdateCurrentAddressUnselectedUseCase,
     private val insertAddressUseCase: InsertAddressUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SearchAddressUiState())
-    val uiState: StateFlow<SearchAddressUiState> = _uiState.asStateFlow()
+    private val _currentPlaceName = MutableStateFlow("")
+    private val _page = MutableStateFlow(1)
+    private val _searchAddressAsync = combine(_currentPlaceName, _page) { place, page ->
+        searchAddress(place, page)
+    }.map {
+        Async.Success(it)
+    }.catch<Async<List<Address>>> {
+        emit(Async.Error(R.string.error_code))
+    }
+    private val _isLoading = MutableStateFlow(false)
+    private val _userMessage = MutableStateFlow<Int?>(null)
 
-    private val _currentAddress = MutableStateFlow<Address?>(null)
-
-    init {
-        viewModelScope.launch {
-            getCurrentAddressUseCase().collectLatest {
-                if (it is Result.Success) {
-                    _currentAddress.value = it.data
-                }
+    val uiState = combine(
+        _searchAddressAsync,
+        _isLoading,
+        _userMessage
+    ) { addressAsync, isLoading, message ->
+        when (addressAsync) {
+            Async.Loading -> {
+                SearchAddressUiState(isLoading = true)
             }
-        }
-    }
-
-    private val _searchAddressState: MutableState<String> =
-        mutableStateOf(value = "")
-    val searchAddressState = _searchAddressState
-
-    fun setSearchAddressState(place: String) {
-        _searchAddressState.value = place
-    }
-
-    fun setSearchAppBarStateClose() {
-        if (_searchAddressState.value.isEmpty()) {
-            _uiState.update {
-                it.copy(
-                    page = 1,
-                    uiState = UIState.INIT,
-                    addresses = emptyList()
+            is Async.Success -> {
+                SearchAddressUiState(
+                    addressList = addressAsync.data,
+                    isLoading = false
                 )
             }
-        } else {
-            _searchAddressState.value = ""
-        }
-    }
-
-    fun setCurrentAddress(newAddress: Address) {
-        viewModelScope.launch {
-            _currentAddress.value?.let { updateCurrentAddressUnselectedUseCase(it.id) }
-            insertAddressUseCase(newAddress)
-        }
-    }
-
-    fun searchAddress(place: String? = null) {
-        checkCurrentPlace(place)
-
-        viewModelScope.launch {
-            val currentPlace = place ?: _uiState.value.currentPlace
-            val response = searchAddressUseCase(
-                address = currentPlace,
-                page = _uiState.value.page + 1
-            )
-
-            if (response is Result.Success) {
-                val addressList = response.data.list
-                _uiState.update {
-                    it.copy(
-                        uiState = UIState.DONE,
-                        addresses = it.addresses + addressList,
-                        page = it.page + 1,
-                        currentPlace = currentPlace,
-                        isEnd = response.data.isEnd
-                    )
-                }
-            } else {
-                _uiState.update {
-                    it.copy(
-                        uiState = UIState.ERROR,
-                        isEnd = false
-                    )
-                }
-            }
-        }
-    }
-
-    private fun checkCurrentPlace(place: String?) {
-        if (place != null && _uiState.value.currentPlace != place) {
-            _uiState.update {
-                it.copy(
-                    uiState = UIState.LOADING,
-                    addresses = emptyList(),
-                    page = 1,
-                    isEnd = false
+            is Async.Error -> {
+                SearchAddressUiState(
+                    isLoading = false,
+                    message = message
                 )
             }
-        } else {
-            _uiState.update {
-                it.copy(uiState = UIState.LOADING)
-            }
         }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(2000),
+        initialValue = SearchAddressUiState()
+    )
 
-        if (_uiState.value.isEnd) {
-            _uiState.update {
-                it.copy(uiState = UIState.DONE)
-            }
-            return
+    private val _addressList = MutableStateFlow<List<Address>>(emptyList())
+
+    private suspend fun searchAddress(place: String, page: Int): List<Address> {
+        if (place.isEmpty()) return emptyList()
+
+        val response = searchAddressUseCase(
+            address = place,
+            page = page
+        )
+
+        return if (response is Result.Success) {
+            _addressList.value += response.data.list
+            return _addressList.value
+        } else {
+            emptyList()
+        }
+    }
+
+    fun searchPlace(placeName: String) {
+        _page.value = 1
+        _currentPlaceName.update { placeName }
+        _addressList.value = emptyList()
+    }
+
+    fun getNextPage() {
+        _page.update {
+            _page.value + 1
         }
     }
 }

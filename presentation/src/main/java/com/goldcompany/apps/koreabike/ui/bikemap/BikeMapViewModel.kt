@@ -62,6 +62,9 @@ class BikeMapViewModel @Inject constructor(
                     address = addressAsync.data
                 )
             }
+            is Async.Error -> {
+                BikeMapUiState()
+            }
         }
     }.stateIn(
         scope = viewModelScope,

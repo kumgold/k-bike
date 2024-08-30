@@ -50,6 +50,12 @@ class HistoryPlaceViewModel @Inject constructor(
                     items = itemsAsync.data
                 )
             }
+            is Async.Error -> {
+                HistoryPlaceUiState(
+                    isLoading = false,
+                    message = message
+                )
+            }
         }
     }.stateIn(
         scope = viewModelScope,
