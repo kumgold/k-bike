@@ -115,11 +115,6 @@ class SearchPlaceViewModel @Inject constructor(
     fun setCurrentAddress(address: Address) {
         viewModelScope.launch {
             insertAddressUseCase(address)
-            _userMessage.value = R.string.add_favorite_item
         }
-    }
-
-    fun userMessageShown() {
-        _userMessage.value = null
     }
 }

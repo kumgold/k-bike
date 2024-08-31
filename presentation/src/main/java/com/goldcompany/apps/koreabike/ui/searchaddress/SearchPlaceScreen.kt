@@ -23,18 +23,9 @@ import com.goldcompany.apps.koreabike.compose.ui.SearchTextField
 @Composable
 fun SearchPlaceScreen(
     viewModel: SearchPlaceViewModel = hiltViewModel(),
-    navController: NavController,
-    snackBarHostState: SnackbarHostState
+    navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
-    uiState.message?.let { message ->
-        val userMessage = stringResource(id = message)
-        LaunchedEffect(key1 = uiState.message) {
-            snackBarHostState.showSnackbar(userMessage)
-            viewModel.userMessageShown()
-        }
-    }
 
     Column {
         DefaultSearchAppBar(

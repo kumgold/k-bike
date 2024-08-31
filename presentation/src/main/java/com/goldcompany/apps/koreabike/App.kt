@@ -206,8 +206,7 @@ fun KBikeNavHost(
         }
         composable(KBikeScreen.SearchPlace.route) {
             SearchPlaceScreen(
-                navController = navController,
-                snackBarHostState = snackBarHostState
+                navController = navController
             )
         }
         composable(KBikeScreen.MyPlace.route) {
