@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
@@ -25,6 +27,14 @@ fun SearchPlaceScreen(
     snackBarHostState: SnackbarHostState
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    uiState.message?.let { message ->
+        val userMessage = stringResource(id = message)
+        LaunchedEffect(key1 = uiState.message) {
+            snackBarHostState.showSnackbar(userMessage)
+            viewModel.userMessageShown()
+        }
+    }
 
     Column {
         DefaultSearchAppBar(
@@ -46,7 +56,7 @@ fun SearchPlaceScreen(
                 SearchAddressResultView(
                     modifier = Modifier.fillMaxSize(),
                     addressList = uiState.addressList,
-                    onClick = {},
+                    onClick = { address -> viewModel.setCurrentAddress(address) },
                     navigateBack = { navController.popBackStack() },
                     searchNextAddressPage = { viewModel.getNextPage() },
                     isEnd = uiState.isEnd

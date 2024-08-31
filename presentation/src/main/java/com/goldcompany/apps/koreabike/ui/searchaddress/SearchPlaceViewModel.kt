@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Stable
@@ -62,7 +63,8 @@ class SearchPlaceViewModel @Inject constructor(
                 SearchAddressUiState(
                     addressList = addressAsync.data,
                     isEnd = isEnd,
-                    isLoading = false
+                    isLoading = false,
+                    message = message
                 )
             }
             is Async.Error -> {
@@ -108,5 +110,16 @@ class SearchPlaceViewModel @Inject constructor(
         _page.update {
             _page.value + 1
         }
+    }
+
+    fun setCurrentAddress(address: Address) {
+        viewModelScope.launch {
+            insertAddressUseCase(address)
+            _userMessage.value = R.string.add_favorite_item
+        }
+    }
+
+    fun userMessageShown() {
+        _userMessage.value = null
     }
 }
