@@ -18,16 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.koreabike.domain.model.address.Address
 
-@Composable
-fun AddressTextView(
-    text: String
-) {
-    Text(
-        text = text,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
-}
 
 @Composable
 fun DefaultAddressItemView(
@@ -57,6 +47,17 @@ fun DefaultAddressItemView(
             AddressTextView(text = address.addressName)
         }
     }
+}
+
+@Composable
+fun AddressTextView(
+    text: String
+) {
+    Text(
+        text = text,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
 }
 
 @Preview

@@ -3,8 +3,6 @@ package com.goldcompany.apps.koreabike.ui.searchaddress
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,15 +43,12 @@ fun SearchPlaceScreen(
             )
         } else {
             if (uiState.addressList.isNotEmpty()) {
-                val listState: LazyListState = rememberLazyListState()
-
                 SearchAddressResultView(
                     modifier = Modifier.fillMaxSize(),
                     addressList = uiState.addressList,
                     onClick = {},
                     navigateBack = { navController.popBackStack() },
                     searchNextAddressPage = { viewModel.getNextPage() },
-                    listState = listState,
                     isEnd = uiState.isEnd
                 )
             } else {

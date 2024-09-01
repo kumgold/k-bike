@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,7 +24,6 @@ fun SearchAddressResultView(
     onClick: (Address) -> Unit,
     navigateBack: () -> Unit = {},
     searchNextAddressPage: () -> Unit,
-    listState: LazyListState,
     isEnd: Boolean = true
 ) {
     if (addressList.isEmpty()) {
@@ -44,7 +41,6 @@ fun SearchAddressResultView(
             onAddressClick = onClick,
             navigateBack = navigateBack,
             searchNextAddressPage = searchNextAddressPage,
-            listState = listState,
             isEnd = isEnd
         )
     }
@@ -57,7 +53,6 @@ private fun AddressLazyColumn(
     onAddressClick: (Address) -> Unit,
     navigateBack: () -> Unit,
     searchNextAddressPage: () -> Unit,
-    listState: LazyListState = rememberLazyListState(),
     isEnd: Boolean = true
 ) {
     LazyColumn(
@@ -65,8 +60,7 @@ private fun AddressLazyColumn(
             vertical = dimensionResource(id = R.dimen.default_margin)
         ),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.default_margin)),
-        modifier = modifier,
-        state = listState
+        modifier = modifier
     ) {
         items(
             items = addressList,
