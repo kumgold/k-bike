@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.compose.ui
+package com.goldcompany.apps.koreabike.util
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +15,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.koreabike.domain.model.address.Address
+import com.goldcompany.koreabike.data.model.address.Address
 
 @Composable
 fun SearchAddressResultView(

@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.compose.ui
+package com.goldcompany.apps.koreabike.util
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import com.goldcompany.apps.koreabike.R
 
 @Composable
@@ -29,5 +30,16 @@ fun ErrorMessageTextView(
         text = stringResource(id = R.string.error_code),
         modifier = modifier,
         textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun AddressTextView(
+    text: String
+) {
+    Text(
+        text = text,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }

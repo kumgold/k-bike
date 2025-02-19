@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.util.Async
-import com.goldcompany.koreabike.domain.model.Result
-import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.usecase.InsertAddressUseCase
-import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
+import com.goldcompany.koreabike.data.repository.KBikeRepository
+import com.goldcompany.koreabike.data.util.Result
+import com.goldcompany.koreabike.data.model.address.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,8 +29,7 @@ data class SearchAddressUiState(
 
 @HiltViewModel
 class SearchPlaceViewModel @Inject constructor(
-    private val searchAddressUseCase: SearchAddressUseCase,
-    private val insertAddressUseCase: InsertAddressUseCase
+    private val bikeRepository: KBikeRepository
 ) : ViewModel() {
 
     private val _currentPlaceName = MutableStateFlow("")
@@ -83,7 +81,7 @@ class SearchPlaceViewModel @Inject constructor(
     private suspend fun searchAddress(place: String, page: Int): List<Address> {
         if (place.isEmpty()) return emptyList()
 
-        val response = searchAddressUseCase(
+        val response = bikeRepository.searchAddress(
             address = place,
             page = page
         )
@@ -112,7 +110,7 @@ class SearchPlaceViewModel @Inject constructor(
 
     fun setCurrentAddress(address: Address) {
         viewModelScope.launch {
-            insertAddressUseCase(address)
+            bikeRepository.insertAddress(address)
         }
     }
 }

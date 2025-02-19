@@ -6,12 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.util.Async
-import com.goldcompany.koreabike.domain.model.Result
-import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.model.succeeded
-import com.goldcompany.koreabike.domain.usecase.*
+import com.goldcompany.koreabike.data.model.address.Address
+import com.goldcompany.koreabike.data.repository.KBikeRepository
+import com.goldcompany.koreabike.data.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,15 +29,11 @@ data class HistoryPlaceUiState(
 
 @HiltViewModel
 class HistoryPlaceViewModel @Inject constructor(
-    private val getCurrentAddressUseCase: GetCurrentAddressUseCase,
-    private val getAllHistoryAddressUseCase: GetAllHistoryAddressUseCase,
-    private val updateCurrentAddressUnselectedUseCase: UpdateCurrentAddressUnselectedUseCase,
-    private val insertAddressUseCase: InsertAddressUseCase,
-    private val deleteAddressUseCase: DeleteAddressUseCase
+    private val bikeRepository: KBikeRepository
 ) : ViewModel() {
 
     private val _message: MutableStateFlow<Int?> = MutableStateFlow(null)
-    private val _itemsAsync = getAllHistoryAddressUseCase().map {
+    private val _itemsAsync = bikeRepository.getAllAddress().map {
             getAddressList(it)
         }.map { Async.Success(it) }
         .onStart<Async<List<Address>>> { emit(Async.Loading) }
@@ -71,7 +73,7 @@ class HistoryPlaceViewModel @Inject constructor(
 
     private fun getCurrentAddress() {
         viewModelScope.launch {
-            getCurrentAddressUseCase().collectLatest { address ->
+            bikeRepository.getAddress().collectLatest { address ->
                 if (address is Result.Success) {
                     currentAddress.value = address.data
                 }
@@ -80,7 +82,7 @@ class HistoryPlaceViewModel @Inject constructor(
     }
 
     private fun getAddressList(address: Result<List<Address>>): List<Address> {
-        return if (address.succeeded && address is Result.Success) {
+        return if (address is Result.Success) {
             address.data
         } else {
             setSnackBarMessage(R.string.error_code)
@@ -95,15 +97,15 @@ class HistoryPlaceViewModel @Inject constructor(
     fun setCurrentAddress(newAddress: Address) {
         viewModelScope.launch {
             if (currentAddress.value != null) {
-                updateCurrentAddressUnselectedUseCase(currentAddress.value!!.id)
+                bikeRepository.updateCurrentAddressUnselected(currentAddress.value!!.id)
             }
-            insertAddressUseCase(newAddress)
+            bikeRepository.insertAddress(newAddress)
         }
     }
 
     fun deleteAddress(address: Address) {
         viewModelScope.launch {
-            deleteAddressUseCase(address)
+            bikeRepository.deleteAddress(address)
         }
     }
 }

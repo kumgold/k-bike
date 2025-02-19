@@ -9,8 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
-import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.util.CircularLoadingView
+import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.UIState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng

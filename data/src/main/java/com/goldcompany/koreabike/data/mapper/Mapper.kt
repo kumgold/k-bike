@@ -3,9 +3,9 @@ package com.goldcompany.koreabike.data.mapper
 import com.goldcompany.koreabike.data.db.AddressEntity
 import com.goldcompany.koreabike.data.model.address.ApiAddress
 import com.goldcompany.koreabike.data.model.driving.ApiNavigationTrack
-import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.model.navigation.Navigation
-import com.goldcompany.koreabike.domain.model.navigation.NavigationTrack
+import com.goldcompany.koreabike.data.model.address.Address
+import com.goldcompany.koreabike.data.model.navigation.Navigation
+import com.goldcompany.koreabike.data.model.navigation.NavigationTrack
 
 fun mapperApiAddressToAddress(apiAddress: ApiAddress): Address {
     return Address(

@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.util.UIState
-import com.goldcompany.koreabike.domain.model.Result
-import com.goldcompany.koreabike.domain.usecase.GetNavigationPathUseCase
+import com.goldcompany.koreabike.data.repository.KBikeRepository
+import com.goldcompany.koreabike.data.util.Result
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NavigationDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getNavigationPathUseCase: GetNavigationPathUseCase
+    private val bikeRepository: KBikeRepository
 ) : ViewModel() {
     data class NavigationDetailUiState(
         val path: List<LatLng> = emptyList(),
@@ -40,7 +40,7 @@ class NavigationDetailViewModel @Inject constructor(
         loading()
 
         viewModelScope.launch {
-            val result = getNavigationPathUseCase(startCoordinate, endCoordinate)
+            val result = bikeRepository.getNavigationPath(startCoordinate, endCoordinate)
 
             if (result is Result.Success) {
                 val list = mutableListOf<LatLng>()

@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.compose.ui
+package com.goldcompany.apps.koreabike.util
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.CircularProgressIndicator

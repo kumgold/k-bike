@@ -3,22 +3,19 @@ package com.goldcompany.apps.koreabike.ui.searchaddress
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
-import com.goldcompany.apps.koreabike.compose.ui.DefaultSearchAppBar
-import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
-import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
-import com.goldcompany.apps.koreabike.compose.ui.SearchTextField
+import com.goldcompany.apps.koreabike.util.CircularLoadingView
+import com.goldcompany.apps.koreabike.util.DefaultSearchAppBar
+import com.goldcompany.apps.koreabike.util.DefaultTextView
+import com.goldcompany.apps.koreabike.util.SearchAddressResultView
+import com.goldcompany.apps.koreabike.util.SearchTextField
 
 @Composable
 fun SearchPlaceScreen(

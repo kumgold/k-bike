@@ -20,10 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.compose.ui.AddressTextView
-import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
-import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
-import com.goldcompany.koreabike.domain.model.address.Address
+import com.goldcompany.apps.koreabike.util.AddressTextView
+import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.util.DefaultTextView
+import com.goldcompany.koreabike.data.model.address.Address
 
 @Composable
 fun HistoryPlaceScreen(

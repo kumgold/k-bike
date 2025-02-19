@@ -35,15 +35,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.LightGray
-import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
-import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
-import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
-import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
-import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
+import com.goldcompany.apps.koreabike.util.CircularLoadingView
+import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
+import com.goldcompany.apps.koreabike.util.DefaultTextView
+import com.goldcompany.apps.koreabike.util.ErrorMessageTextView
+import com.goldcompany.apps.koreabike.util.SearchAddressResultView
 import com.goldcompany.apps.koreabike.nav.KBikeScreen
-import com.goldcompany.apps.koreabike.util.KBikeTypography
+import com.goldcompany.apps.koreabike.compose.KBikeTypography
 import com.goldcompany.apps.koreabike.util.UIState
-import com.goldcompany.koreabike.domain.model.address.Address
+import com.goldcompany.koreabike.data.model.address.Address
 
 @Composable
 fun NavigationScreen(

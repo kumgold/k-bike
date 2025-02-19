@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.util.UIState
-import com.goldcompany.koreabike.domain.model.Result
-import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
+import com.goldcompany.koreabike.data.repository.KBikeRepository
+import com.goldcompany.koreabike.data.util.Result
+import com.goldcompany.koreabike.data.model.address.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +31,7 @@ data class NavigationUiState(
 
 @HiltViewModel
 class NavigationViewModel @Inject constructor(
-    private val searchAddressUseCase: SearchAddressUseCase
+    private val bikeRepository: KBikeRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NavigationUiState())
@@ -86,7 +86,7 @@ class NavigationViewModel @Inject constructor(
         loading()
 
         viewModelScope.launch {
-            when (val response = searchAddressUseCase(address, page)) {
+            when (val response = bikeRepository.searchAddress(address, page)) {
                 is Result.Success -> {
                     val list = response.data.list
 

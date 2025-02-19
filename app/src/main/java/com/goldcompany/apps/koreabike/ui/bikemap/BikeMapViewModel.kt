@@ -5,10 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.util.Async
 import com.goldcompany.apps.koreabike.util.UIState
-import com.goldcompany.koreabike.domain.model.Result
-import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.usecase.GetCurrentAddressUseCase
-import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
+import com.goldcompany.koreabike.data.model.address.Address
+import com.goldcompany.koreabike.data.repository.KBikeRepository
+import com.goldcompany.koreabike.data.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,15 +35,14 @@ data class BikeMapBottomSheetUiState(
 
 @HiltViewModel
 class BikeMapViewModel @Inject constructor(
-    private val searchAddressUseCase: SearchAddressUseCase,
-    getCurrentAddressUseCase: GetCurrentAddressUseCase
+    private val bikeRepository: KBikeRepository
 ) : ViewModel() {
     companion object {
         private const val NAVER_SEARCH_URL = "https://search.naver.com/search.naver?query="
     }
 
     private val _message: MutableStateFlow<Int?> = MutableStateFlow(null)
-    private val _addressAsync = getCurrentAddressUseCase().map {
+    private val _addressAsync = bikeRepository.getAddress().map {
         getCurrentAddress(it)
     }.map { Async.Success(it) }
     .onStart<Async<Address?>> { emit(Async.Loading) }
@@ -88,7 +86,7 @@ class BikeMapViewModel @Inject constructor(
 
         viewModelScope.launch {
             delay(500)
-            val response = searchAddressUseCase(
+            val response = bikeRepository.searchAddress(
                 address = place,
                 page = 1
             )
