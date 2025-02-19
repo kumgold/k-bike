@@ -8,12 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
-import com.goldcompany.koreabike.domain.usecase.GetNavigationPathUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

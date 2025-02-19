@@ -22,10 +22,12 @@ class KBikeRepositoryImpl(
     private val localDataSource: KBikeLocalDataSource,
     private val remoteDataSource: KBikeRemoteDataSource
 ) : KBikeRepository {
+    private val ioDispatcher = Dispatchers.IO
+
     override suspend fun searchAddress(
         address: String,
         page: Int
-    ): Result<AddressResponse> = withContext(Dispatchers.IO) {
+    ): Result<AddressResponse> = withContext(ioDispatcher) {
         try {
             val response = remoteDataSource.searchAddress(address, page)
             return@withContext Result.Success(
@@ -56,7 +58,7 @@ class KBikeRepositoryImpl(
         }
     }
 
-    override suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(Dispatchers.IO) {
+    override suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(ioDispatcher) {
         val response = remoteDataSource.getNavigationPath(start, end)
 
         return@withContext try {

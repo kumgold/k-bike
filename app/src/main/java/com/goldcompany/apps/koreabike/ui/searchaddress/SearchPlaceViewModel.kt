@@ -9,7 +9,6 @@ import com.goldcompany.koreabike.domain.model.Result
 import com.goldcompany.koreabike.domain.model.address.Address
 import com.goldcompany.koreabike.domain.usecase.InsertAddressUseCase
 import com.goldcompany.koreabike.domain.usecase.SearchAddressUseCase
-import com.goldcompany.koreabike.domain.usecase.UpdateCurrentAddressUnselectedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +31,6 @@ data class SearchAddressUiState(
 @HiltViewModel
 class SearchPlaceViewModel @Inject constructor(
     private val searchAddressUseCase: SearchAddressUseCase,
-    private val updateCurrentAddressUnselectedUseCase: UpdateCurrentAddressUnselectedUseCase,
     private val insertAddressUseCase: InsertAddressUseCase
 ) : ViewModel() {
 

@@ -22,7 +22,6 @@ interface KBikeLocalDataSource {
 }
 
 class KBikeLocalDataSourceImpl(private val addressDAO: AddressDAO): KBikeLocalDataSource {
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     override fun getAllAddress(): Flow<List<AddressEntity>> {
         return addressDAO.getAll()
@@ -33,9 +32,7 @@ class KBikeLocalDataSourceImpl(private val addressDAO: AddressDAO): KBikeLocalDa
     }
 
     override suspend fun updateCurrentAddressUnselected(id: String) {
-        withContext(ioDispatcher) {
-            addressDAO.updateCurrentAddressUnselected(id)
-        }
+        addressDAO.updateCurrentAddressUnselected(id)
     }
 
     override suspend fun insertAddress(address: AddressEntity) {
