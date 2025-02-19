@@ -2,7 +2,7 @@ package com.goldcompany.koreabike.data.model.address
 
 import com.google.gson.annotations.SerializedName
 
-data class ApiAddress(
+data class RemoteAddress(
     @SerializedName("address_name") val addressName: String,
     @SerializedName("category_group_code") val categoryGroupCode: String,
     @SerializedName("category_group_name") val categoryGroupName: String,

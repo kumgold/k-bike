@@ -64,9 +64,9 @@ class KBikeRepository @Inject constructor(
         val response = remoteDataSource.getNavigationPath(start, end)
 
         return@withContext try {
-            if (!response.apiNavigationRoute.comfort.isNullOrEmpty()) {
+            if (!response.remoteNavigationRoute.comfort.isNullOrEmpty()) {
                 Result.Success(
-                    mapperApiRouteToNavigation(response.apiNavigationRoute.comfort)
+                    mapperApiRouteToNavigation(response.remoteNavigationRoute.comfort)
                 )
             } else {
                 Log.e("Navigation", "response : $response")

@@ -1,7 +1,7 @@
 package com.goldcompany.koreabike.data.api
 
-import com.goldcompany.koreabike.data.model.address.ApiAddressResponse
-import com.goldcompany.koreabike.data.model.place.ApiPlaceMarkerResponse
+import com.goldcompany.koreabike.data.model.address.RemoteAddressResponse
+import com.goldcompany.koreabike.data.model.place.RemotePlaceMarkerResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +10,7 @@ interface KakaoApiService {
     suspend fun searchAddress(
         @Query("query") address: String,
         @Query("page") page: Int
-    ): ApiAddressResponse
+    ): RemoteAddressResponse
 
     @GET("v2/local/search/category.json")
     suspend fun searchCategoryPlaces(
@@ -18,5 +18,5 @@ interface KakaoApiService {
         @Query("x") longitude: String,
         @Query("y") latitude: String,
         @Query("radius") radius: Int
-    ): ApiPlaceMarkerResponse
+    ): RemotePlaceMarkerResponse
 }

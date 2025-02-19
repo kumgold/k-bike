@@ -1,23 +1,23 @@
 package com.goldcompany.koreabike.data.mapper
 
 import com.goldcompany.koreabike.data.db.AddressEntity
-import com.goldcompany.koreabike.data.model.address.ApiAddress
+import com.goldcompany.koreabike.data.model.address.RemoteAddress
 import com.goldcompany.koreabike.data.model.driving.ApiNavigationTrack
 import com.goldcompany.koreabike.data.model.address.Address
 import com.goldcompany.koreabike.data.model.navigation.Navigation
 import com.goldcompany.koreabike.data.model.navigation.NavigationTrack
 
-fun mapperApiAddressToAddress(apiAddress: ApiAddress): Address {
+fun mapperApiAddressToAddress(remoteAddress: RemoteAddress): Address {
     return Address(
-        id = apiAddress.id,
-        addressName = apiAddress.addressName,
-        roadAddressName = apiAddress.roadAddressName,
-        categoryName = apiAddress.categoryName,
-        phone = apiAddress.phone,
-        placeName = apiAddress.placeName,
-        placeUrl = apiAddress.placeUrl,
-        x = apiAddress.x,
-        y = apiAddress.y
+        id = remoteAddress.id,
+        addressName = remoteAddress.addressName,
+        roadAddressName = remoteAddress.roadAddressName,
+        categoryName = remoteAddress.categoryName,
+        phone = remoteAddress.phone,
+        placeName = remoteAddress.placeName,
+        placeUrl = remoteAddress.placeUrl,
+        x = remoteAddress.x,
+        y = remoteAddress.y
     )
 }
 

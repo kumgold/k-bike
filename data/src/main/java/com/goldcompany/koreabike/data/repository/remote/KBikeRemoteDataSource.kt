@@ -2,9 +2,9 @@ package com.goldcompany.koreabike.data.repository.remote
 
 import com.goldcompany.koreabike.data.api.KakaoApiService
 import com.goldcompany.koreabike.data.api.NaverApiService
-import com.goldcompany.koreabike.data.model.address.ApiAddressResponse
-import com.goldcompany.koreabike.data.model.driving.ApiNavigationPathResponse
-import com.goldcompany.koreabike.data.model.place.ApiPlaceMarkerResponse
+import com.goldcompany.koreabike.data.model.address.RemoteAddressResponse
+import com.goldcompany.koreabike.data.model.driving.RemoteNavigationPathResponse
+import com.goldcompany.koreabike.data.model.place.RemotePlaceMarkerResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +14,7 @@ class KBikeRemoteDataSource @Inject constructor(
     private val naverApiService: NaverApiService
 ) {
 
-    suspend fun searchAddress(address: String, page: Int): ApiAddressResponse {
+    suspend fun searchAddress(address: String, page: Int): RemoteAddressResponse {
         return kakaoApiService.searchAddress(
             address = address,
             page = page
@@ -25,7 +25,7 @@ class KBikeRemoteDataSource @Inject constructor(
         code: String,
         longitude: String,
         latitude: String
-    ): ApiPlaceMarkerResponse {
+    ): RemotePlaceMarkerResponse {
         return kakaoApiService.searchCategoryPlaces(
             code = code,
             longitude = longitude,
@@ -34,7 +34,7 @@ class KBikeRemoteDataSource @Inject constructor(
         )
     }
 
-    suspend fun getNavigationPath(start: String, end: String): ApiNavigationPathResponse {
+    suspend fun getNavigationPath(start: String, end: String): RemoteNavigationPathResponse {
         return naverApiService.getPath(
             start = start,
             goal = end

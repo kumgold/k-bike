@@ -1,6 +1,6 @@
 package com.goldcompany.koreabike.data.api
 
-import com.goldcompany.koreabike.data.model.driving.ApiNavigationPathResponse
+import com.goldcompany.koreabike.data.model.driving.RemoteNavigationPathResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +10,5 @@ interface NaverApiService {
         @Query("start") start: String,
         @Query("goal") goal: String,
         @Query("option") option: String = "tracomfort"
-    ): ApiNavigationPathResponse
+    ): RemoteNavigationPathResponse
 }
