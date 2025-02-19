@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.constants
+package com.goldcompany.apps.koreabike.nav
 
 object KBikeDestinations {
     const val BIKE_MAP_SCREEN = "bike_map"

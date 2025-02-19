@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.ui.CircularLoadingView
-import com.goldcompany.apps.koreabike.util.KBikeScreen
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.koreabike.domain.model.address.Address
 import com.google.android.gms.maps.model.CameraPosition

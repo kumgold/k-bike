@@ -1,8 +1,7 @@
-package com.goldcompany.apps.koreabike.util
+package com.goldcompany.apps.koreabike.nav
 
 import androidx.annotation.StringRes
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.constants.KBikeDestinations
 
 sealed class KBikeScreen(val route: String, @StringRes val resourceId: Int) {
     data object BikeMap: KBikeScreen(KBikeDestinations.BIKE_MAP_SCREEN, R.string.bike_map)

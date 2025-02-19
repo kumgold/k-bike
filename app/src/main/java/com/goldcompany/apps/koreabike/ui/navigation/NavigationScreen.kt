@@ -40,7 +40,7 @@ import com.goldcompany.apps.koreabike.compose.ui.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.compose.ui.DefaultTextView
 import com.goldcompany.apps.koreabike.compose.ui.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.compose.ui.SearchAddressResultView
-import com.goldcompany.apps.koreabike.util.KBikeScreen
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 import com.goldcompany.apps.koreabike.util.KBikeTypography
 import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.domain.model.address.Address

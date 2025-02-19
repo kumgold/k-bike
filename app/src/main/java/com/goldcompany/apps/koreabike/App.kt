@@ -36,7 +36,7 @@ import com.goldcompany.apps.koreabike.ui.historyplace.HistoryPlaceScreen
 import com.goldcompany.apps.koreabike.ui.navigation.NavigationScreen
 import com.goldcompany.apps.koreabike.ui.navigationdetail.NavigationDetailScreen
 import com.goldcompany.apps.koreabike.ui.searchaddress.SearchPlaceScreen
-import com.goldcompany.apps.koreabike.util.KBikeScreen
+import com.goldcompany.apps.koreabike.nav.KBikeScreen
 
 @Composable
 fun HomeScreen(widthSizeClass: WindowWidthSizeClass) {
