@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Stable
@@ -80,7 +79,7 @@ class SearchPlaceViewModel @Inject constructor(
 
     private val _addressList = MutableStateFlow<List<Address>>(emptyList())
 
-    private suspend fun searchAddress(place: String, page: Int): List<Address> = withContext(Dispatchers.IO) {
+    private suspend fun searchAddress(place: String, page: Int): List<Address> = viewModelScope.async(Dispatchers.IO) {
         if (place.isEmpty()) {
             emptyList()
         } else {
@@ -98,7 +97,7 @@ class SearchPlaceViewModel @Inject constructor(
                 emptyList()
             }
         }
-    }
+    }.await()
 
     fun searchPlace(placeName: String) {
         _addressList.value = emptyList()
