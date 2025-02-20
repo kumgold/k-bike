@@ -29,18 +29,14 @@ import com.goldcompany.koreabike.data.model.address.Address
 fun HistoryPlaceScreen(
     modifier: Modifier = Modifier,
     viewModel: HistoryPlaceViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
     navController: NavController
 ) {
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = { 
-            DefaultKBikeTopAppBar(title = R.string.search_list)
-        },
+    Column(
         modifier = modifier.fillMaxSize()
-    ) { paddingValues ->
+    ) {
         val uiState by viewModel.uiState.collectAsState()
 
+        DefaultKBikeTopAppBar(title = R.string.search_list)
         if (uiState.isLoading) {
             Box(modifier.fillMaxSize()) {
                 CircularProgressIndicator(
@@ -50,7 +46,7 @@ fun HistoryPlaceScreen(
             }
         } else {
             AddressLazyColumn(
-                modifier = Modifier.padding(paddingValues),
+                modifier = modifier,
                 addressList = uiState.items,
                 deleteAddress = viewModel::deleteAddress,
                 onClick = {
