@@ -12,7 +12,6 @@ import com.goldcompany.koreabike.data.repository.remote.KBikeRemoteDataSource
 import com.goldcompany.koreabike.data.model.address.Address
 import com.goldcompany.koreabike.data.model.address.AddressResponse
 import com.goldcompany.koreabike.data.model.navigation.Navigation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -24,15 +23,13 @@ class KBikeRepository @Inject constructor(
     private val localDataSource: KBikeLocalDataSource,
     private val remoteDataSource: KBikeRemoteDataSource
 ) {
-    private val ioDispatcher = Dispatchers.IO
-
     suspend fun searchAddress(
         address: String,
         page: Int
-    ): Result<AddressResponse> = withContext(ioDispatcher) {
+    ): Result<AddressResponse> {
         try {
             val response = remoteDataSource.searchAddress(address, page)
-            return@withContext Result.Success(
+            return Result.Success(
                 AddressResponse(
                     list = response.addressList.map {
                         mapperApiAddressToAddress(it)
@@ -41,7 +38,7 @@ class KBikeRepository @Inject constructor(
                 )
             )
         } catch (e: Exception) {
-            return@withContext Result.Error(e)
+            return Result.Error(e)
         }
     }
 
@@ -49,8 +46,8 @@ class KBikeRepository @Inject constructor(
         code: String,
         longitude: String,
         latitude: String
-    ): List<Address> = withContext(ioDispatcher) {
-        return@withContext try {
+    ): List<Address> {
+        return try {
             val response = remoteDataSource.searchCategoryPlaces(code, longitude, latitude)
             response.apiPlaces.map {
                 mapperApiAddressToAddress(it)
@@ -60,10 +57,10 @@ class KBikeRepository @Inject constructor(
         }
     }
 
-    suspend fun getNavigationPath(start: String, end: String): Result<Navigation> = withContext(ioDispatcher) {
+    suspend fun getNavigationPath(start: String, end: String): Result<Navigation> {
         val response = remoteDataSource.getNavigationPath(start, end)
 
-        return@withContext try {
+        return try {
             if (!response.remoteNavigationRoute.comfort.isNullOrEmpty()) {
                 Result.Success(
                     mapperApiRouteToNavigation(response.remoteNavigationRoute.comfort)
