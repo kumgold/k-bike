@@ -39,22 +39,17 @@ import kotlinx.coroutines.launch
 fun BikeMapScreen(
     modifier: Modifier = Modifier,
     viewModel: BikeMapViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavController
 ) {
-    Scaffold(
+    Surface(
         modifier = modifier,
-        scaffoldState = scaffoldState,
-    ) { paddingValues ->
-
+    ) {
         val uiState by viewModel.uiState.collectAsState()
         val bottomSheetUiState by viewModel.bottomSheetUiState.collectAsState()
 
         BikeMapDefaultScreen(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             address = uiState.address,
             bottomSheetUiState = bottomSheetUiState,
             coroutineScope = coroutineScope,
