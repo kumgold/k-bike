@@ -11,6 +11,7 @@ import com.goldcompany.koreabike.data.repository.KBikeRepository
 import com.goldcompany.koreabike.data.util.Result
 import com.goldcompany.koreabike.data.model.address.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -87,7 +88,7 @@ class NavigationViewModel @Inject constructor(
     fun searchAddress(address: String, page: Int = 1) {
         loading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val response = bikeRepository.searchAddress(address, page)) {
                 is Result.Success -> {
                     val list = response.data.list
