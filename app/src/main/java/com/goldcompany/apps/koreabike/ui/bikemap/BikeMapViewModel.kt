@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.bikemap
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.goldcompany.apps.koreabike.R
@@ -26,6 +27,7 @@ data class BikeMapUiState(
     val address: Address? = null,
 )
 
+@Stable
 data class BikeMapBottomSheetUiState(
     val isLoading: Boolean = false,
     val message: Int? = null,
