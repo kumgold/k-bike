@@ -20,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,16 +31,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
+import com.goldcompany.apps.koreabike.compose.KBikeTypography
 import com.goldcompany.apps.koreabike.compose.LightGray
 import com.goldcompany.apps.koreabike.util.CircularLoadingView
 import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.DefaultTextView
 import com.goldcompany.apps.koreabike.util.ErrorMessageTextView
 import com.goldcompany.apps.koreabike.util.SearchAddressResultView
-import com.goldcompany.apps.koreabike.nav.KBikeScreen
-import com.goldcompany.apps.koreabike.compose.KBikeTypography
 import com.goldcompany.apps.koreabike.util.UIState
 import com.goldcompany.koreabike.data.model.address.Address
 
@@ -51,7 +51,7 @@ fun NavigationScreen(
     navController: NavController,
     modifier: Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier

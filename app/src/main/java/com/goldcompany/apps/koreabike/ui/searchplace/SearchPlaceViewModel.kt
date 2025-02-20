@@ -1,4 +1,4 @@
-package com.goldcompany.apps.koreabike.ui.searchaddress
+package com.goldcompany.apps.koreabike.ui.searchplace
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
@@ -10,6 +10,7 @@ import com.goldcompany.koreabike.data.util.Result
 import com.goldcompany.koreabike.data.model.address.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch

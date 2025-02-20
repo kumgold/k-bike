@@ -1,28 +1,24 @@
 package com.goldcompany.apps.koreabike.ui.historyplace
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.goldcompany.apps.koreabike.nav.KBikeScreen
+import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.util.AddressTextView
 import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.DefaultTextView
+import com.goldcompany.apps.koreabike.util.HistoryPlaceAddressItemView
 import com.goldcompany.koreabike.data.model.address.Address
 
 @Composable
@@ -32,31 +28,22 @@ fun HistoryPlaceScreen(
     navController: NavController
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
     ) {
-        val uiState by viewModel.uiState.collectAsState()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         DefaultKBikeTopAppBar(title = R.string.search_list)
-        if (uiState.isLoading) {
-            Box(modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    color = colorResource(id = R.color.colorPrimary),
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        } else {
-            AddressLazyColumn(
-                modifier = modifier,
-                addressList = uiState.items,
-                deleteAddress = viewModel::deleteAddress,
-                onClick = {
-                    viewModel.setCurrentAddress(it)
-                    navController.navigate(KBikeScreen.BikeMap.route) {
-                        launchSingleTop = true
-                    }
+        AddressLazyColumn(
+            modifier = modifier,
+            addressList = uiState.items,
+            deleteAddress = viewModel::deleteAddress,
+            onClick = {
+                viewModel.setCurrentAddress(it)
+                navController.navigate(KBikeScreen.BikeMap.route) {
+                    launchSingleTop = true
                 }
-            )
-        }
+            }
+        )
     }
 }
 
@@ -79,61 +66,12 @@ fun AddressLazyColumn(
             modifier = modifier
         ) {
             items(addressList) { address ->
-                HistoryPlaceAddressItem(
+                HistoryPlaceAddressItemView(
                     address = address,
                     deleteAddress = { deleteAddress(address) },
                     onClick = { onClick(address) }
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun HistoryPlaceAddressItem(
-    address: Address,
-    deleteAddress: (Address) -> Unit,
-    onClick: (Address) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick(address)
-            }
-            .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_search_button),
-            contentDescription = null
-        )
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = dimensionResource(id = R.dimen.default_margin))
-        ) {
-            AddressTextView(text = address.placeName)
-            AddressTextView(text = address.addressName)
-        }
-        Image(
-            painter = painterResource(id = R.drawable.ic_delete_button),
-            contentDescription = null,
-            modifier = Modifier
-                .clickable { deleteAddress(address) }
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun HistoryPlaceAddressItemPreView() {
-    MaterialTheme {
-        Surface {
-            HistoryPlaceAddressItem(
-                address = Address("", "addressNameaddressNameaddressNameaddressName", "", "", "", "placeName", "", "", ""),
-                deleteAddress = { },
-                onClick = { }
-            )
         }
     }
 }
