@@ -9,6 +9,7 @@ import com.goldcompany.koreabike.data.repository.KBikeRepository
 import com.goldcompany.koreabike.data.util.Result
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -41,7 +42,7 @@ class NavigationDetailViewModel @Inject constructor(
     private fun getNavigationPath() {
         loading()
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = bikeRepository.getNavigationPath(startCoordinate, endCoordinate)
 
             if (result is Result.Success) {
