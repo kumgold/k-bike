@@ -9,6 +9,7 @@ import com.goldcompany.koreabike.data.repository.KBikeRepository
 import com.goldcompany.koreabike.data.util.Result
 import com.goldcompany.koreabike.data.model.address.Address
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Stable
@@ -78,21 +80,23 @@ class SearchPlaceViewModel @Inject constructor(
 
     private val _addressList = MutableStateFlow<List<Address>>(emptyList())
 
-    private suspend fun searchAddress(place: String, page: Int): List<Address> {
-        if (place.isEmpty()) return emptyList()
-
-        val response = bikeRepository.searchAddress(
-            address = place,
-            page = page
-        )
-
-        return if (response is Result.Success) {
-            _addressList.value += response.data.list
-            _isEnd.update { response.data.isEnd }
-
-            return _addressList.value
-        } else {
+    private suspend fun searchAddress(place: String, page: Int): List<Address> = withContext(Dispatchers.IO) {
+        if (place.isEmpty()) {
             emptyList()
+        } else {
+            val response = bikeRepository.searchAddress(
+                address = place,
+                page = page
+            )
+
+            return if (response is Result.Success) {
+                _addressList.value += response.data.list
+                _isEnd.update { response.data.isEnd }
+
+                _addressList.value
+            } else {
+                emptyList()
+            }
         }
     }
 
@@ -109,7 +113,7 @@ class SearchPlaceViewModel @Inject constructor(
     }
 
     fun setCurrentAddress(address: Address) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             bikeRepository.insertAddress(address)
         }
     }
