@@ -10,6 +10,7 @@ import com.goldcompany.koreabike.data.model.address.Address
 import com.goldcompany.koreabike.data.repository.KBikeRepository
 import com.goldcompany.koreabike.data.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -86,7 +87,7 @@ class BikeMapViewModel @Inject constructor(
     fun searchPlace(place: String) {
         _bottomSheetUiState.update { it.copy(isLoading = true) }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             delay(500)
             val response = bikeRepository.searchAddress(
                 address = place,
