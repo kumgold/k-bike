@@ -10,8 +10,12 @@ abstract class KBikeDatabase : RoomDatabase() {
     abstract fun addressDAO(): AddressDAO
 
     companion object {
+        @Volatile private var instance: KBikeDatabase? = null
+        
         fun getInstance(context: Context): KBikeDatabase {
-            return buildDatabase(context)
+            return instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also { instance = it }
+            }
         }
 
         private fun buildDatabase(context: Context): KBikeDatabase {
