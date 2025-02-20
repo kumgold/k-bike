@@ -1,5 +1,6 @@
 package com.goldcompany.apps.koreabike.ui.navigationdetail
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,18 +15,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
+data class NavigationDetailUiState(
+    val path: List<LatLng> = emptyList(),
+    val distance: Int = 0,
+    val duration: Int = 0,
+    val uiState: UIState = UIState.INIT
+)
+
 @HiltViewModel
 class NavigationDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val bikeRepository: KBikeRepository
 ) : ViewModel() {
-    data class NavigationDetailUiState(
-        val path: List<LatLng> = emptyList(),
-        val distance: Int = 0,
-        val duration: Int = 0,
-        val uiState: UIState = UIState.INIT
-    )
-
     private val _uiState = MutableStateFlow(NavigationDetailUiState())
     val uiState: StateFlow<NavigationDetailUiState> = _uiState
 
