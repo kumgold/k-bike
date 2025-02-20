@@ -1,6 +1,7 @@
 package com.goldcompany.apps.koreabike.ui.navigation
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,7 @@ data class NavAddress(
     val coordinate: String = ""
 )
 
+@Stable
 data class NavigationUiState(
     val uiState: UIState = UIState.INIT,
     val addresses: List<Address> = emptyList(),
