@@ -1,6 +1,7 @@
 package com.goldcompany.apps.koreabike.ui.historyplace
 
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 data class HistoryPlaceUiState(
     val isLoading: Boolean = true,
     val message: Int? = null,
