@@ -89,7 +89,7 @@ class SearchPlaceViewModel @Inject constructor(
                 page = page
             )
 
-            return if (response is Result.Success) {
+            if (response is Result.Success) {
                 _addressList.value += response.data.list
                 _isEnd.update { response.data.isEnd }
 
