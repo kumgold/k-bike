@@ -6,7 +6,7 @@ import okhttp3.Response
 
 class KakaoInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder().addHeader("Authorization", BuildConfig.KAKAO_API_KEY)
+        val request = chain.request().newBuilder().addHeader("Authorization", "KakaoAK ${BuildConfig.KAKAO_API_KEY}")
 
         return chain.proceed(request.build())
     }
