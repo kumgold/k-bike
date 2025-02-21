@@ -59,7 +59,7 @@ private fun MapView(
 ) {
     when (uiState) {
         UIState.LOADING -> {
-            CircularLoadingView(modifier)
+//            CircularLoadingView(modifier)
         }
         UIState.DONE -> {
             NavigationPathView(

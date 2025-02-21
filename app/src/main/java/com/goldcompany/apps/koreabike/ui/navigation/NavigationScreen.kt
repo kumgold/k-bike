@@ -200,7 +200,7 @@ private fun SearchAddressListView(
             )
         }
         UIState.LOADING -> {
-            CircularLoadingView(modifier)
+//            CircularLoadingView(modifier)
         }
         UIState.DONE -> {
             SearchAddressResultView(
