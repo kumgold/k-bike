@@ -2,7 +2,11 @@ package com.goldcompany.apps.koreabike.ui.searchplace
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -11,7 +15,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.util.CircularLoadingView
 import com.goldcompany.apps.koreabike.util.DefaultSearchAppBar
 import com.goldcompany.apps.koreabike.util.DefaultTextView
 import com.goldcompany.apps.koreabike.util.SearchAddressResultView
@@ -34,10 +37,11 @@ fun SearchPlaceScreen(
         }
 
         if (uiState.isLoading) {
-            CircularLoadingView(
+            CircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(dimensionResource(id = R.dimen.default_margin))
+                    .wrapContentSize(),
+                color = MaterialTheme.colorScheme.primary
             )
         } else {
             if (uiState.addressList.isNotEmpty()) {

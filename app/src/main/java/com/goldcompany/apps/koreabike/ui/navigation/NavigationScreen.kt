@@ -11,14 +11,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -37,7 +40,6 @@ import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.KBikeTypography
 import com.goldcompany.apps.koreabike.compose.LightGray
-import com.goldcompany.apps.koreabike.util.CircularLoadingView
 import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.DefaultTextView
 import com.goldcompany.apps.koreabike.util.ErrorMessageTextView
@@ -200,7 +202,10 @@ private fun SearchAddressListView(
             )
         }
         UIState.LOADING -> {
-//            CircularLoadingView(modifier)
+            CircularProgressIndicator(
+                modifier = modifier.wrapContentSize(),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
         UIState.DONE -> {
             SearchAddressResultView(

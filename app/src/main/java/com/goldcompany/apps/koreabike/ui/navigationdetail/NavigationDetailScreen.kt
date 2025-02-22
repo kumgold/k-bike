@@ -1,6 +1,10 @@
 package com.goldcompany.apps.koreabike.ui.navigationdetail
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -9,7 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.R
-import com.goldcompany.apps.koreabike.util.CircularLoadingView
 import com.goldcompany.apps.koreabike.util.DefaultKBikeTopAppBar
 import com.goldcompany.apps.koreabike.util.UIState
 import com.google.android.gms.maps.model.CameraPosition
@@ -59,7 +62,12 @@ private fun MapView(
 ) {
     when (uiState) {
         UIState.LOADING -> {
-//            CircularLoadingView(modifier)
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
         UIState.DONE -> {
             NavigationPathView(
@@ -69,9 +77,7 @@ private fun MapView(
                 distance = distance
             )
         }
-        else -> {
-
-        }
+        else -> {}
     }
 }
 

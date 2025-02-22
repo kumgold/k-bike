@@ -3,9 +3,13 @@ package com.goldcompany.apps.koreabike.ui.historyplace
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,17 +37,25 @@ fun HistoryPlaceScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         DefaultKBikeTopAppBar(title = R.string.search_list)
-        AddressLazyColumn(
-            modifier = modifier,
-            addressList = uiState.items,
-            deleteAddress = viewModel::deleteAddress,
-            onClick = {
-                viewModel.setCurrentAddress(it)
-                navController.navigate(KBikeScreen.BikeMap.route) {
-                    launchSingleTop = true
+
+        if (uiState.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.fillMaxWidth().wrapContentSize(),
+                color = MaterialTheme.colorScheme.primary
+            )
+        } else {
+            AddressLazyColumn(
+                modifier = modifier,
+                addressList = uiState.items,
+                deleteAddress = viewModel::deleteAddress,
+                onClick = {
+                    viewModel.setCurrentAddress(it)
+                    navController.navigate(KBikeScreen.BikeMap.route) {
+                        launchSingleTop = true
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
 

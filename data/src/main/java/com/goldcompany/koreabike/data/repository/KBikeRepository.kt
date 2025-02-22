@@ -28,7 +28,7 @@ class KBikeRepository @Inject constructor(
     ): Result<AddressResponse> {
         try {
             val response = remoteDataSource.searchAddress(address, page)
-            
+
             return Result.Success(
                 AddressResponse(
                     list = response.addressList.map {

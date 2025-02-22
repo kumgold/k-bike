@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
@@ -22,6 +25,7 @@ import androidx.compose.material.Shapes
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +47,6 @@ import androidx.navigation.NavController
 import com.goldcompany.apps.koreabike.KBikeScreen
 import com.goldcompany.apps.koreabike.R
 import com.goldcompany.apps.koreabike.compose.KBikeTypography
-import com.goldcompany.apps.koreabike.util.CircularLoadingView
 import com.goldcompany.koreabike.data.model.address.Address
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -209,10 +212,9 @@ private fun BottomSheetLayout(
         sheetContent = {
             when (bottomSheetUiState.isLoading) {
                 true -> {
-                    CircularLoadingView(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize()
+                    CircularProgressIndicator(
+                        modifier = Modifier.fillMaxWidth().wrapContentSize(),
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 false -> {
@@ -230,6 +232,7 @@ private fun BottomSheetLayout(
 private fun PlaceWebView(
     bottomSheetUiState: BikeMapBottomSheetUiState
 ) {
+    val scrollState = rememberScrollState()
     var backEnabled by remember { mutableStateOf(false) }
     var view: WebView? = null
 
@@ -239,6 +242,7 @@ private fun PlaceWebView(
 
     AndroidView(
         modifier = Modifier
+            .verticalScroll(scrollState)
             .fillMaxSize()
             .padding(top = 16.dp),
         factory = { context ->
